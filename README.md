@@ -48,5 +48,10 @@ Final Boss
 - Must be defeated within 30 minutes of starting the game
 - Always the same
 
-
-
+User Interface
+- Main menu (startup menu)
+- Pause Menu
+- Countdown timer (persistent on all screens while mid-run)
+- Battle display
+- Out-of-combat display
+- Player inventory
