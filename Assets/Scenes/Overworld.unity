@@ -544,7 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77ccbc4a93732f45adbf3881b6cbdb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editModeEnabled: 0
+  editModeEnabled: 1
   levelEditorDisplay: {fileID: 636323883}
   mapGenerator: {fileID: 308181956}
   player: {fileID: 1485993667}

@@ -92,7 +92,13 @@ public class LevelEditor : MonoBehaviour
         writer.Close();
 
         // Make backup at most every minute when the file is saved
-        string dateTimeString = DateTime.Now.ToString("yymmdd HH mm");
+
+        string dateTimeString = "" + DateTime.Now.Year;
+        dateTimeString += "-" + DateTime.Now.Month;
+        dateTimeString += "-" + DateTime.Now.Day;
+        dateTimeString += "[" + DateTime.Now.Hour;
+        dateTimeString += " " + DateTime.Now.Minute + "]";
+
         string backupPath;
         if (mapGenerator.currentWorldNum == 0) backupPath = Application.dataPath + "/WorldMaps/Backups/" + startWorldFileName + "-" + dateTimeString + ".txt";
         else if (mapGenerator.currentWorldNum == 6) backupPath = Application.dataPath + "/WorldMaps/Backups/" + endWorldFileName + "-" + dateTimeString + ".txt";
