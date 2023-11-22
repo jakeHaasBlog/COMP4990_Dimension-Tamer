@@ -143,9 +143,11 @@ public class LevelEditor : MonoBehaviour
         }
 
         if (addingForegroundElements) {
-            if (Input.GetKey("p") && TilemapData.foregroundTiles.ContainsKey((TileID)currentEquippedTileFG)) mapGenerator.getWorldMap().setCellForeground(player.getTileX(), player.getTileY(), (TileID)currentEquippedTileFG);
+            if (Input.GetKey("p") && TilemapData.foregroundTiles.ContainsKey((TileID)currentEquippedTileFG)) 
+                mapGenerator.getWorldMap().setCellForeground(player.getTileX(), player.getTileY(), (TileID)currentEquippedTileFG);
         } else {
-            if (Input.GetKey("p") && TilemapData.backgroundTiles.ContainsKey((TileID)currentEquippedTileBG)) mapGenerator.getWorldMap().setCellBackground(player.getTileX(), player.getTileY(), (TileID)currentEquippedTileBG);
+            if (Input.GetKey("p") && TilemapData.backgroundTiles.ContainsKey((TileID)currentEquippedTileBG)) 
+                mapGenerator.getWorldMap().setCellBackground(player.getTileX(), player.getTileY(), (TileID)currentEquippedTileBG);
         }
 
 
