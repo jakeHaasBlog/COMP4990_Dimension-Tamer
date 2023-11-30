@@ -192,19 +192,135 @@ public class GenerateMap : MonoBehaviour
         }
     }
 
-    // should rewrite this funciton to ensure path has no impassible diagonals
-    public void placeLine(TileID tile, bool foreground, int ax, int ay, int bx, int by) {
-        float dx = bx - ax;
-        float dy = by - ay;
-        float dist = Mathf.Sqrt(dx * dx + dy * dy);
 
-        for (float cv = 0.0f; cv < dist; cv += 0.1f) {
-            float cvx = (float)ax + ((float)dx / dist) * cv;
-            float cvy = (float)ay + ((float)dy / dist) * cv;
+    // ensures all plotted tiles have a cardinal neighbour
+    private void placeLinePoint(TileID tile, bool foreground, int x, int y) {
+        if (foreground) worldMap.setCellForeground(x, y, tile);
+        else worldMap.setCellBackground(x, y, tile);
+        
+        // if top-left has no neighbors, fill top cell
+        if (worldMap.getTileBackgroundID(x - 1, y + 1) == tile)
+            if (worldMap.getTileBackgroundID(x, y + 1) != tile && worldMap.getTileBackgroundID(x - 1, y) != tile) worldMap.setCellBackground(x, y + 1, tile);
 
-            if (foreground) worldMap.setCellForeground((int)cvx, (int)cvy, tile);
-            else worldMap.setCellBackground((int)cvx, (int)cvy, tile);
+        // if top-right has no neighbors, fill top cell
+        if (worldMap.getTileBackgroundID(x + 1, y + 1) == tile)
+            if (worldMap.getTileBackgroundID(x, y + 1) != tile && worldMap.getTileBackgroundID(x + 1, y) != tile) worldMap.setCellBackground(x, y + 1, tile);
+
+        // if bottom-left has no neighbors, fill bottom cell
+        if (worldMap.getTileBackgroundID(x - 1, y - 1) == tile)
+            if (worldMap.getTileBackgroundID(x, y - 1) != tile && worldMap.getTileBackgroundID(x - 1, y) != tile) worldMap.setCellBackground(x, y - 1, tile);
+
+        // if bottom-right has no neighbors, fill bottom cell
+        if (worldMap.getTileBackgroundID(x + 1, y - 1) == tile)
+            if (worldMap.getTileBackgroundID(x, y - 1) != tile && worldMap.getTileBackgroundID(x + 1, y) != tile) worldMap.setCellBackground(x, y - 1, tile);
+
+    }
+
+    // Thank you Wikipedia for this implementation of Bresenham's line algorithm
+    // This function will ensure all generated paths are walkable
+    public void placeLine(TileID tile, bool foreground, int x0, int y0, int x1, int y1) {
+        
+        if (Math.Abs(y1 - y0) < Math.Abs(x1 - x0)) {
+            if (x0 > x1) {
+                int dx = x0 - x1;
+                int dy = y0 - y1;
+                int yi = 1;
+                if (dy < 0) {
+                    yi = -1;
+                    dy = -dy;
+                }
+                int D = (2 * dy) - dx;
+                int y = y1;
+
+                for (int x = x1; x < x1; x++) {
+                    
+                    placeLinePoint(tile, foreground, x, y);
+
+                    if (D > 0) {
+                        y = y + yi;
+                        D = D + (2 * (dy - dx));
+                    } else {
+                        D = D + 2 * dy;
+                    }
+                }
+
+            } else {
+                int dx = x1 - x0;
+                int dy = y1 - y0;
+                int yi = 1;
+                if (dy < 0) {
+                    yi = -1;
+                    dy = -dy;
+                }
+                int D = (2 * dy) - dx;
+                int y = y0;
+
+                for (int x = x0; x < x1; x++) {
+                    
+                    placeLinePoint(tile, foreground, x, y);
+
+                    if (D > 0) {
+                        y = y + yi;
+                        D = D + (2 * (dy - dx));
+                    } else {
+                        D = D + 2 * dy;
+                    }
+                }
+            }
+        } else {
+            if (y0 > y1) {
+                int dx = x0 - x1;
+                int dy = y0 - y1;
+                int xi = 1;
+                if (dx < 0) {
+                    xi = -1;
+                    dx = -dx;
+                }
+                int D = (2 * dx) - dy;
+                int x = x1;
+
+                for (int y = y1; y < y1; y++) {
+                    
+                    placeLinePoint(tile, foreground, x, y);
+
+                    if (D > 0) {
+                        x = x + xi;
+                        D = D + (2 * (dx - dy));
+                    } else {
+                        D = D + 2 * dx;
+                    }
+                }
+
+            } else {
+                int dx = x1 - x0;
+                int dy = y1 - y0;
+                int xi = 1;
+                if (dx < 0) {
+                    xi = -1;
+                    dx = -dx;
+                }
+                int D = (2 * dx) - dy;
+                int x = x0;
+
+                for (int y = y0; y < y1; y++) {
+                    
+                    placeLinePoint(tile, foreground, x, y);
+
+                    if (D > 0) {
+                        x = x + xi;
+                        D = D + (2 * (dx - dy));
+                    } else {
+                        D = D + 2 * dx;
+                    }
+                }
+
+            }
         }
+
+        // have to plot starting and ending tile individually
+        placeLinePoint(tile, foreground, x0, y0);
+        placeLinePoint(tile, foreground, x1, y1);
+
     }
 
     public void generate() {

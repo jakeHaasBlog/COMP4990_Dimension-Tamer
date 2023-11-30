@@ -16,6 +16,9 @@ public class GenIcePond : BiomeGenerator
 
     override public void generate() {
         Debug.Log("Ice pond generating at " + boundX + ", " + boundY + "  width=" + boundWidth + " height=" + boundHeight);
+
+        
+
     }
 
 }
