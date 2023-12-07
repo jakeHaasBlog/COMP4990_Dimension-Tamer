@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GenIcePond : BiomeGenerator
+public class IcePondGenerator : BiomeGenerator
 {
 
-    public GenIcePond(int boundX, int boundY, int boundWidth, int boundHeight, int branchID) 
+    public IcePondGenerator(int boundX, int boundY, int boundWidth, int boundHeight, int branchID) 
     : base(boundX, boundY, boundWidth, boundHeight, branchID)
     {}
 

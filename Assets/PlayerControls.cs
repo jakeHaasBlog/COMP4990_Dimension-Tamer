@@ -13,6 +13,8 @@ public class PlayerControls : MonoBehaviour
     public int transitionFrames; // frames it takes to move from one tile to the next
     public GameObject portal;
 
+    public GameObject[] scientists;
+
     private int tileX;
     private int tileY;
     private bool isGhost = false;
@@ -33,7 +35,7 @@ public class PlayerControls : MonoBehaviour
         return new Vector3((tileX + 1) * tileGrid.transform.localScale.x, (tileY + 1) * tileGrid.transform.localScale.y, 0);
     }
 
-    Vector3 getRealpos(int tileX, int tileY) {
+    public Vector3 getRealpos(int tileX, int tileY) {
         return new Vector3((tileX + 1) * tileGrid.transform.localScale.x, (tileY + 1) * tileGrid.transform.localScale.y, 0);
     }
     
@@ -48,6 +50,20 @@ public class PlayerControls : MonoBehaviour
         setPosition(startingX, startingY);
     }
 
+    bool isWalkable(int x, int y) {
+        if (isGhost) return true;
+        if (!WorldMap.currentMap.getCellIsWalkable(nextX, nextY)) return false;
+        if (isPortalTile(nextX, nextY)) return false;
+        
+        for (int i = 0; i < scientists.Length; i++) {
+            int sx = (int)scientists[i].transform.position.x;
+            int sy = (int)scientists[i].transform.position.y;
+            if (sx == x + 1 && sy == y + 1) return false;
+        }
+
+        return true;
+    }
+
     int currentMovementFrame = -1;
     int nextX, nextY;
     void Update()
@@ -58,25 +74,25 @@ public class PlayerControls : MonoBehaviour
             nextX = tileX;
             nextY = tileY + 1;
 
-            if (generateMap.getWorldMap().getTileIsWalkable(nextX, nextY) && !isPortalTile(nextX, nextY) || isGhost) currentMovementFrame = 0;
+            if (isWalkable(nextX, nextY)) currentMovementFrame = 0;
         }
 
         if (Input.GetKey("a") && currentMovementFrame == -1) {
             nextX = tileX - 1;
             nextY = tileY;
-            if (generateMap.getWorldMap().getTileIsWalkable(nextX, nextY) && !isPortalTile(nextX, nextY) || isGhost) currentMovementFrame = 0;
+            if (isWalkable(nextX, nextY)) currentMovementFrame = 0;
         }
 
         if (Input.GetKey("s") && currentMovementFrame == -1) {
             nextX = tileX;
             nextY = tileY - 1;
-            if (generateMap.getWorldMap().getTileIsWalkable(nextX, nextY) && !isPortalTile(nextX, nextY) || isGhost) currentMovementFrame = 0;
+            if (isWalkable(nextX, nextY)) currentMovementFrame = 0;
         }
         
         if (Input.GetKey("d") && currentMovementFrame == -1) {
             nextX = tileX + 1;
             nextY = tileY;
-            if (generateMap.getWorldMap().getTileIsWalkable(nextX, nextY) && !isPortalTile(nextX, nextY) || isGhost) currentMovementFrame = 0;
+            if (isWalkable(nextX, nextY)) currentMovementFrame = 0;
         }
 
         if (currentMovementFrame == -1) {

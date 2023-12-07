@@ -46,8 +46,8 @@ public class BiomeGraph
     }
 
     public void connectNodes(int a, int b) {
-        nodes[a].connections.Add(b);
-        nodes[b].connections.Add(a);
+        if (!nodes[a].connections.Contains(b)) nodes[a].connections.Add(b);
+        if (!nodes[b].connections.Contains(a)) nodes[b].connections.Add(a);
     }
 
     public int getNearestNodeIndex(float x, float y) {
@@ -115,10 +115,15 @@ public class BiomeGraph
     }
 
     private bool tryAddingBranchNode(ref Stack<int> addedNodeIndices, float edgeLength, float minNodeDistance, int itterations, Vector4 bounds, int branchID) {
+
+        List<float> possibleAngles = new List<float>();
+        for (float r = 0; r < Mathf.PI * 2; r += Mathf.PI / 16) possibleAngles.Add(r);
+
         for (int i = 0; i < itterations; i++) {
 
             // make a new node that is 'edgeLength' distance away from current node
-            float r = UnityEngine.Random.Range(0.0f, 2.0f * Mathf.PI);
+            //float r = UnityEngine.Random.Range(0.0f, 2.0f * Mathf.PI);
+            float r = possibleAngles[Random.Range(0, possibleAngles.Count)];
             float newX = getNode(addedNodeIndices.Peek()).x + (Mathf.Cos(r) * edgeLength);
             float newY = getNode(addedNodeIndices.Peek()).y + (Mathf.Sin(r) * edgeLength);
 

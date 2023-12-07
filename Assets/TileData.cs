@@ -8,7 +8,7 @@ using UnityEngine.UI;
 // ==== The order of these enums does not matter, but make sure that once a new tile is added that its assigned value never changes (Will cause incorrect tiles to load in the starting and end world) ====
 // To add a new tile: Add an enum name for it below, then load the tile into backgroundTiles or foregroundTiles (look at loadTiles() function)
 public enum TileID {
-    // Starting World / endworld / universal
+    // Starting World / endworld / universal (these ids must be in order for the level editor, other tiles will not be loaded by the editor)
     labFloor = 000,
     labWall = 001,
     bookshelfBottom = 002,

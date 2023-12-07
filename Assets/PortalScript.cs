@@ -10,10 +10,6 @@ public class PortalScript : MonoBehaviour
     public float promptDistance;
     public GenerateMap mapGenerator;
 
-    void Start()
-    {
-    }
-
     void Update()
     {
         float dx = player.transform.position.x - gameObject.transform.position.x;
