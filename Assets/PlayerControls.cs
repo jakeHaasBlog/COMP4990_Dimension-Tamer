@@ -52,13 +52,15 @@ public class PlayerControls : MonoBehaviour
 
     bool isWalkable(int x, int y) {
         if (isGhost) return true;
-        if (!WorldMap.currentMap.getCellIsWalkable(nextX, nextY)) return false;
-        if (isPortalTile(nextX, nextY)) return false;
+        if (!WorldMap.currentMap.getCellIsWalkable(x, y)) return false;
+        if (isPortalTile(x, y)) return false;
         
-        for (int i = 0; i < scientists.Length; i++) {
-            int sx = (int)scientists[i].transform.position.x;
-            int sy = (int)scientists[i].transform.position.y;
-            if (sx == x + 1 && sy == y + 1) return false;
+        if (generateMap.currentWorldNum == 0) {
+            for (int i = 0; i < scientists.Length; i++) {
+                int sx = (int)scientists[i].transform.position.x;
+                int sy = (int)scientists[i].transform.position.y;
+                if (sx == x + 1 && sy == y + 1) return false;
+            }
         }
 
         return true;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 public class PortalScript : MonoBehaviour
 {
@@ -9,14 +10,33 @@ public class PortalScript : MonoBehaviour
     public GameObject promptObject;
     public float promptDistance;
     public GenerateMap mapGenerator;
+    public GameObject loadingScreen;
 
+    private AudioSource portalSoundEffect;
+
+    void Start() {
+        portalSoundEffect = GetComponent<AudioSource>();
+        loadingScreen.SetActive(false);
+    }
+
+    bool tpNextFrame = false;
     void Update()
     {
+        if (tpNextFrame) {
+            tpNextFrame = false;
+            mapGenerator.generateWorld(mapGenerator.currentWorldNum + 1);
+            player.GetComponent<PlayerControls>().setPosition(250, 250);
+            if (mapGenerator.currentWorldNum == 6) gameObject.SetActive(false);
+            return;
+        }
+
+        loadingScreen.SetActive(false);
+
         float dx = player.transform.position.x - gameObject.transform.position.x;
         float dy = player.transform.position.y - gameObject.transform.position.y;
-        float dist = Mathf.Sqrt(dx * dx + dy * dy);
+        float distSQ = dx * dx + dy * dy;
 
-        if (dist > promptDistance) {
+        if (distSQ * distSQ > promptDistance) {
             promptObject.SetActive(false);
             return;
         }
@@ -24,10 +44,9 @@ public class PortalScript : MonoBehaviour
         promptObject.SetActive(true);
 
         if (Input.GetKeyDown("q")) {
-            mapGenerator.generateWorld(mapGenerator.currentWorldNum + 1);
-            player.GetComponent<PlayerControls>().setPosition(250, 250);
-
-            if (mapGenerator.currentWorldNum == 6) gameObject.SetActive(false);
+            portalSoundEffect.Play();
+            loadingScreen.SetActive(true);
+            tpNextFrame = true;
         }
 
     }
