@@ -5,11 +5,27 @@ using UnityEngine;
 using System.IO;
 using System;
 
+
+public enum ElementalType {
+    none = 0, 
+    fire = 1,
+    water = 2,
+    ice = 3,
+    poison = 4,
+    dark = 5,
+    grass = 6,
+}
+
 public class CreatureManager : MonoBehaviour
 {
     public static CreatureManager instance;
 
     public Dictionary<BiomeID, List<CreatureData>> biomeCreatures;
+    public Dictionary<int, List<Tuple<BiomeID, int>>> encounterZones;
+    public Dictionary<int, List<ElementalType>> encounterZoneElements;
+    public Dictionary<int, int> encounterZoneLevel;
+
+    public Creature[] playerCreatures = { null, null, null, null, null, null };
 
     public BattleAction[] allActions = {
         new BattleAction("tackle", 0.4f, -1.0f, ElementalType.none),
@@ -37,6 +53,19 @@ public class CreatureManager : MonoBehaviour
         new BattleAction("terrify", 0.7f, -1.0f, ElementalType.dark),
     };
 
+    public Creature generateRandomCreature() {
+        BiomeID biome = (BiomeID)Enum.GetValues(typeof(BiomeID)).GetValue(UnityEngine.Random.Range(0, Enum.GetValues(typeof(BiomeID)).Length));
+        int creatureIndex = UnityEngine.Random.Range(0, biomeCreatures[biome].Count);
+
+        BattleAction action1 = allActions[UnityEngine.Random.Range(0, allActions.Length)];
+        BattleAction action2 = allActions[UnityEngine.Random.Range(0, allActions.Length)];
+        BattleAction action3 = allActions[UnityEngine.Random.Range(0, allActions.Length)];
+
+        Creature creature = new Creature(biome, creatureIndex, action1, action2, action3);
+        creature.level = UnityEngine.Random.Range(0, 100);
+        return creature;
+    }
+
     void Awake() {
         if (instance != null)
         {
@@ -46,22 +75,17 @@ public class CreatureManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
     private CreatureManager(){
         biomeCreatures = new Dictionary<BiomeID, List<CreatureData>>();
         foreach (BiomeID biome in Enum.GetValues(typeof(BiomeID))) {
             biomeCreatures[biome] = new List<CreatureData>();
         }
+        encounterZones = new Dictionary<int, List<Tuple<BiomeID, int>>>();
+        encounterZoneElements = new Dictionary<int, List<ElementalType>>();
+        encounterZoneLevel = new Dictionary<int, int>();
     }
 
-}
-
-public enum ElementalType {
-    none = 0, 
-    fire = 1,
-    water = 2,
-    ice = 3,
-    poison = 4,
-    dark = 5
 }
 
 public class BattleAction {
@@ -79,8 +103,8 @@ public class BattleAction {
 }
 
 public class CreatureData {
-    public CreatureData(Texture2D image, ElementalType type, int maxHP, int defence, int speed, int attack) {
-        this.image = image;
+    public CreatureData(Texture2D tex, ElementalType type, int maxHP, int defence, int speed, int attack) {
+        this.image = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f));
         this.type = type;
         this.maxHP = maxHP;
         this.defence = defence;
@@ -88,7 +112,7 @@ public class CreatureData {
         this.attack = attack;
     }
 
-    Texture2D image;
+    public Sprite image;
     public ElementalType type;
     public int maxHP;
     public int defence;
@@ -132,6 +156,14 @@ public class Creature {
         float healing = (float)action.healRatio;
         healing *= ((float)level / 10.0f) + 1.0f;
         return (int)healing;
+    }
+
+    public int getCreatureDataIndex() {
+        return creatureDataIndex;
+    }
+
+    public BiomeID getBiome() {
+        return biome;
     }
 
     private BiomeID biome;

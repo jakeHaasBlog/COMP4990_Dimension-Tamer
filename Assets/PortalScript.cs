@@ -24,9 +24,9 @@ public class PortalScript : MonoBehaviour
     {
         if (tpNextFrame) {
             tpNextFrame = false;
-            mapGenerator.generateWorld(mapGenerator.currentWorldNum + 1);
+            mapGenerator.generateWorld(WorldMap.currentMap.worldNumber + 1);
             player.GetComponent<PlayerControls>().setPosition(250, 250);
-            if (mapGenerator.currentWorldNum == 6) gameObject.SetActive(false);
+            if (WorldMap.currentMap.worldNumber == 6) gameObject.SetActive(false);
             return;
         }
 

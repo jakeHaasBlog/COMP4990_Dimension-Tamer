@@ -49,4 +49,14 @@ public class OverworldUI : MonoBehaviour
         overworld.SetActive(true);
     }
 
+    public void switchToBattleScene() {
+        disableAll();
+        battleScene.SetActive(true);
+    }
+
+    public void switchToOverworld() {
+        disableAll();
+        overworld.SetActive(true);
+    }
+
 }

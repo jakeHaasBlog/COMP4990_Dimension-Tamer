@@ -11,7 +11,6 @@ public class GenerateMap : MonoBehaviour {
     public Tilemap backgroundTilemap;
     public GenerateStartingWorld startingWorldGenerator;
     public GenerateEndingWorld endingWorldGenerator;
-    public int currentWorldNum;
     public GameObject portal;
 
     public GameObject scientists;
@@ -25,7 +24,7 @@ public class GenerateMap : MonoBehaviour {
 
         TilemapData.loadTiles();
 
-        generateWorld(currentWorldNum);
+        generateWorld(WorldMap.currentMap.worldNumber);
 
     }
 
@@ -38,17 +37,17 @@ public class GenerateMap : MonoBehaviour {
             return;
         }
 
-        currentWorldNum = worldNumber;
+        WorldMap.currentMap.worldNumber = worldNumber;
 
-        if (currentWorldNum == 0) {
+        if (WorldMap.currentMap.worldNumber == 0) {
             startingWorldGenerator.generate();
-        } else if (currentWorldNum == 6) {
+        } else if (WorldMap.currentMap.worldNumber == 6) {
             endingWorldGenerator.generate();
         } else {
             generate(); // procedurally generate map
         }
 
-        if (currentWorldNum == 0) {
+        if (WorldMap.currentMap.worldNumber == 0) {
             scientists.SetActive(true);
         } else {
             scientists.SetActive(false);
@@ -56,6 +55,11 @@ public class GenerateMap : MonoBehaviour {
     }
 
     public void generate() {
+
+        // reset encounter zone data
+        CreatureManager.instance.encounterZones.Clear();
+        CreatureManager.instance.encounterZoneElements.Clear();
+        CreatureManager.instance.encounterZoneLevel.Clear();
 
         // place portal
         portal.transform.position = new Vector3(WorldMap.WIDTH / 2, WorldMap.HEIGHT / 2, portal.transform.position.z);
@@ -157,40 +161,40 @@ public class GenerateMap : MonoBehaviour {
         
             switch (biomeMappings[currentBranch]) {
                 case BiomeID.Grasslands: 
-                    //biomeGenerators.Add(new GenGrassland(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new GrasslandGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.Forest:
                     biomeGenerators.Add(new ForestGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch));
                     break;
                 case BiomeID.PineForest:
-                    //biomeGenerators.Add(new GenPineForest(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new PineForestGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.Mountain:
-                    //biomeGenerators.Add(new GenMountain(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new MountainGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.Cave:
-                    //biomeGenerators.Add(new GenCave(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new CaveGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.Tundra:
-                    //biomeGenerators.Add(new GenTundra(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new TundraGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.SnowyForest:
-                    //biomeGenerators.Add(new GenSnowyForest(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new SnowyForestGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.IcePond:
                     biomeGenerators.Add(new IcePondGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.Volcano:
-                    //biomeGenerators.Add(new GenVolcano(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new VolcanoGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.Tropics:
-                    //biomeGenerators.Add(new GenSnowyTropics(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new TropicsGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.Desert:
-                    //biomeGenerators.Add(new GenDesert(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new DesertGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
                 case BiomeID.SecretMeadow:
-                    //biomeGenerators.Add(new GenSecretMeadow(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
+                    biomeGenerators.Add(new SecretMeadowGenerator(selectionX, selectionY, selectionWidth, selectionHeight, currentBranch)); 
                     break;
             }
 
@@ -208,6 +212,7 @@ public class GenerateMap : MonoBehaviour {
     }
 
     bool growNode(BiomeGraph graph, int node, List<BiomeID> biomeMappings) {
+
         int branchID = graph.getNode(node).branchID; // will expand based on unmapped biome (each branch instead of each biome)
 
         WorldMap.currentMap.setCellBiomeID((int)graph.getNode(node).x, (int)graph.getNode(node).y, branchID);
@@ -228,7 +233,7 @@ public class GenerateMap : MonoBehaviour {
                 if (x < 0 || x >= WorldMap.WIDTH) continue;
                 if (y < 0 || y >= WorldMap.HEIGHT) continue;
 
-                if (WorldMap.currentMap.getCellBiomeID(x, y) == -1 && tileBorderContainsBiome(x, y, branchID)) {
+                if (WorldMap.currentMap.getCellBranchID(x, y) == -1 && tileBorderContainsBiome(x, y, branchID)) {
                     canGrow = true;
                     if (UnityEngine.Random.Range(0, 10) > 6) {
 
@@ -239,7 +244,7 @@ public class GenerateMap : MonoBehaviour {
                             if (biome == BiomeID.Grasslands) WorldMap.currentMap.setCellBackground(x, y, TileID.grasslandGrass);
                             else if (biome == BiomeID.Forest) WorldMap.currentMap.setCellBackground(x, y, TileID.grass);
                             else if (biome == BiomeID.PineForest) WorldMap.currentMap.setCellBackground(x, y, TileID.pineForestDirt);
-                            else if (biome == BiomeID.Mountain) WorldMap.currentMap.setCellBackground(x, y, TileID.rockyGround);
+                            else if (biome == BiomeID.Mountain) WorldMap.currentMap.setCellBackground(x, y, TileID.rockyGroundEZ);
                             else if (biome == BiomeID.Cave) WorldMap.currentMap.setCellBackground(x, y, TileID.caveGround);
                             else if (biome == BiomeID.Tundra) WorldMap.currentMap.setCellBackground(x, y, TileID.permafrost);
                             else if (biome == BiomeID.SnowyForest) WorldMap.currentMap.setCellBackground(x, y, TileID.snowyForestGround);
@@ -264,6 +269,9 @@ public class GenerateMap : MonoBehaviour {
 
     // returns a bounding that fully contains the tiles in a specified branch
     void getBranchSelection(int x, int y, int branchID, ref int selectionX, ref int selectionY, ref int selectionWidth, ref int selectionHeight) {
+
+        if (branchID == -1) return;
+
         selectionX = x; 
         selectionY = y;
         selectionWidth = 1;
@@ -301,6 +309,7 @@ public class GenerateMap : MonoBehaviour {
             }
 
         }
+
     }
 
     bool areaContainsBiomeTile(int x, int y, int width, int height, int branchID) {
@@ -308,7 +317,7 @@ public class GenerateMap : MonoBehaviour {
             for (int yi = y; yi < y + height; yi++) {
                 if (xi < 0 || xi >= WorldMap.WIDTH) continue;
                 if (yi < 0 || yi >= WorldMap.HEIGHT) continue;
-                if (WorldMap.currentMap.getCellBiomeID(xi, yi) == branchID) return true;
+                if (WorldMap.currentMap.getCellBranchID(xi, yi) == branchID) return true;
             }
         }
         return false;
@@ -325,9 +334,9 @@ public class GenerateMap : MonoBehaviour {
                 if (xi != x && yi != y) continue; // prevents checking diagonals
 
                 if (checkContainsOtherBiome) {
-                    if (WorldMap.currentMap.getCellBiomeID(xi, yi) != branchID && WorldMap.currentMap.getCellBiomeID(xi, yi) != -1) return true;
+                    if (WorldMap.currentMap.getCellBranchID(xi, yi) != branchID && WorldMap.currentMap.getCellBranchID(xi, yi) != -1) return true;
                 } else {
-                    if (WorldMap.currentMap.getCellBiomeID(xi, yi) == branchID) return true;
+                    if (WorldMap.currentMap.getCellBranchID(xi, yi) == branchID) return true;
                 }
 
             }

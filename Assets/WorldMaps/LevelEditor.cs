@@ -10,7 +10,6 @@ public class LevelEditor : MonoBehaviour
 {
     public bool editModeEnabled;
     public GameObject levelEditorDisplay;
-    public GenerateMap mapGenerator;
     public PlayerControls player;
 
     public TMPro.TextMeshProUGUI currentTileHeadingText;
@@ -33,8 +32,8 @@ public class LevelEditor : MonoBehaviour
 
     void readMapFromFIle() {
         string path;
-        if (mapGenerator.currentWorldNum == 0) path = Application.dataPath + "/WorldMaps/" + startWorldFileName + ".txt";
-        else if (mapGenerator.currentWorldNum == 6) path = Application.dataPath + "/WorldMaps/" + endWorldFileName + ".txt";
+        if (WorldMap.currentMap.worldNumber == 0) path = Application.dataPath + "/WorldMaps/" + startWorldFileName + ".txt";
+        else if (WorldMap.currentMap.worldNumber == 6) path = Application.dataPath + "/WorldMaps/" + endWorldFileName + ".txt";
         else return;
 
         StreamReader reader = new StreamReader(path);
@@ -67,8 +66,8 @@ public class LevelEditor : MonoBehaviour
 
     void saveCurrentMapToFile() {
         string path;
-        if (mapGenerator.currentWorldNum == 0) path = Application.dataPath + "/WorldMaps/" + startWorldFileName + ".txt";
-        else if (mapGenerator.currentWorldNum == 6) path = Application.dataPath + "/WorldMaps/" + endWorldFileName + ".txt";
+        if (WorldMap.currentMap.worldNumber == 0) path = Application.dataPath + "/WorldMaps/" + startWorldFileName + ".txt";
+        else if (WorldMap.currentMap.worldNumber == 6) path = Application.dataPath + "/WorldMaps/" + endWorldFileName + ".txt";
         else return;
 
         StreamWriter writer = new StreamWriter(path, append:false);
@@ -100,8 +99,8 @@ public class LevelEditor : MonoBehaviour
         dateTimeString += " " + DateTime.Now.Minute + "]";
 
         string backupPath;
-        if (mapGenerator.currentWorldNum == 0) backupPath = Application.dataPath + "/WorldMaps/Backups/" + startWorldFileName + "-" + dateTimeString + ".txt";
-        else if (mapGenerator.currentWorldNum == 6) backupPath = Application.dataPath + "/WorldMaps/Backups/" + endWorldFileName + "-" + dateTimeString + ".txt";
+        if (WorldMap.currentMap.worldNumber == 0) backupPath = Application.dataPath + "/WorldMaps/Backups/" + startWorldFileName + "-" + dateTimeString + ".txt";
+        else if (WorldMap.currentMap.worldNumber == 6) backupPath = Application.dataPath + "/WorldMaps/Backups/" + endWorldFileName + "-" + dateTimeString + ".txt";
         else backupPath = Application.dataPath + "/WorldMaps/Backups/NotStartWorldOrEndWorld-" + dateTimeString + ".txt";
 
         if (!File.Exists(backupPath)) File.Copy(path, backupPath);
@@ -271,7 +270,7 @@ public class LevelEditor : MonoBehaviour
     void Update()
     {
         if (!editModeEnabled) return;
-        if (mapGenerator.currentWorldNum != 0 && mapGenerator.currentWorldNum != 6) return;
+        if (WorldMap.currentMap.worldNumber != 0 && WorldMap.currentMap.worldNumber != 6) return;
 
         player.setGhostMode(true);
 

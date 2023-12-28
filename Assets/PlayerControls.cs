@@ -5,15 +5,18 @@ using UnityEngine;
 public class PlayerControls : MonoBehaviour
 {
 
+    private const float encounterChance = 0.15f;
+
     public int startingX;
     public int startingY;
     public Grid tileGrid;
-    public GenerateMap generateMap;
     public GameObject mainCamera;
     public int transitionFrames; // frames it takes to move from one tile to the next
     public GameObject portal;
 
     public GameObject[] scientists;
+
+    public BattleMenu battleMenu;
 
     private int tileX;
     private int tileY;
@@ -55,7 +58,7 @@ public class PlayerControls : MonoBehaviour
         if (!WorldMap.currentMap.getCellIsWalkable(x, y)) return false;
         if (isPortalTile(x, y)) return false;
         
-        if (generateMap.currentWorldNum == 0) {
+        if (WorldMap.currentMap.worldNumber == 0) {
             for (int i = 0; i < scientists.Length; i++) {
                 int sx = (int)scientists[i].transform.position.x;
                 int sy = (int)scientists[i].transform.position.y;
@@ -110,6 +113,18 @@ public class PlayerControls : MonoBehaviour
                 currentMovementFrame = -1;
                 tileX = nextX;
                 tileY = nextY;
+
+                int encounterZoneID = WorldMap.currentMap.getCellEncounterZoneID(tileX, tileY);
+                if (encounterZoneID != -1 && CreatureManager.instance.playerCreatures[0] != null) {
+
+                    if (UnityEngine.Random.Range(0, 100) < (float)(encounterChance * 100)) {
+                        // begin encounter
+                        battleMenu.beginEncounter(encounterZoneID);
+
+                    }
+
+                }
+
             }
         }
 

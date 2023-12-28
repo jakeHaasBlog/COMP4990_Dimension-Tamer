@@ -16,6 +16,8 @@ public class WorldMap {
     public const int HEIGHT = 500;
     public const int WATER_RING_THICKNESS = 50;
 
+    public int worldNumber = 0;
+
     public static WorldMap currentMap = new WorldMap();
 
     private WorldMap() {
@@ -101,7 +103,7 @@ public class WorldMap {
         return -1;
     }
 
-    public int getCellBiomeID(int x, int y) {
+    public int getCellBranchID(int x, int y) {
         return worldCells[x, y].branchID;
     }
 

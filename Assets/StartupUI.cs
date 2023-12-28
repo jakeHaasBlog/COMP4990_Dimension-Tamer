@@ -44,19 +44,21 @@ public class StartupUI : MonoBehaviour
 
         foreach (BiomeID biome in Enum.GetValues(typeof(BiomeID))) {
 
-            string s = creaturePaths[UnityEngine.Random.Range(0, creaturePaths.Length)];
-
             for (int i = 0; i < 10; i++) {
+                string s = creaturePaths[UnityEngine.Random.Range(0, creaturePaths.Length)];
+                
                 CreatureManager.instance.biomeCreatures[biome].Add(new CreatureData(
                     loadCreatureTexture(s),
                     ElementalType.water,
-                    60, // max hp
-                    20, // defence
-                    10, // speed
-                    20 // attack
+                    60 + UnityEngine.Random.Range(-10, 10), // max hp
+                    20 + UnityEngine.Random.Range(-10, 10), // defence
+                    10 + UnityEngine.Random.Range(-10, 10), // speed
+                    20 + UnityEngine.Random.Range(-10, 10) // attack
                 ));
             }
         }
+
+        CreatureManager.instance.playerCreatures[0] = CreatureManager.instance.generateRandomCreature();
         
     }
 
