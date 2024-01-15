@@ -6,7 +6,7 @@ using System.Threading;
 public class PortalScript : MonoBehaviour
 {
 
-    public GameObject player;   
+    public GameObject player;
     public GameObject promptObject;
     public float promptDistance;
     public GenerateMap mapGenerator;
@@ -25,8 +25,11 @@ public class PortalScript : MonoBehaviour
         if (tpNextFrame) {
             tpNextFrame = false;
             mapGenerator.generateWorld(WorldMap.currentMap.worldNumber + 1);
-            player.GetComponent<PlayerControls>().setPosition(250, 250);
-            if (WorldMap.currentMap.worldNumber == 6) gameObject.SetActive(false);
+            player.GetComponent<PlayerControls>().setPosition(WorldMap.WIDTH / 2, WorldMap.HEIGHT / 2);
+            if (WorldMap.currentMap.worldNumber == 6) {
+                player.GetComponent<PlayerControls>().setPosition(32, 50);
+                gameObject.SetActive(false);
+            }
             return;
         }
 

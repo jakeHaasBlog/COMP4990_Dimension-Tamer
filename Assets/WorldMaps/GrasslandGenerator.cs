@@ -16,15 +16,37 @@ public class GrasslandGenerator : BiomeGenerator
     override public void generate() {
         Debug.Log("Grassland generating at " + boundX + ", " + boundY + "  width=" + boundWidth + " height=" + boundHeight);
 
-        List<Tuple<int, int>> borderTiles = getBorderTiles();
-        borderTiles = growSelection(borderTiles);
-        replaceTiles(borderTiles, TileID.water, false);
+        for (int x = boundX; x < boundX + boundWidth; x++) {
+            for (int y = boundY; y < boundY + boundHeight; y++) {
 
-        for (int j = 0; j < 4; j++) {
+                if (!WorldMap.currentMap.isValidCoord(x, y)) continue;
+                if (WorldMap.currentMap.getCellBranchID(x, y) != branchID) continue;
+                if (!WorldMap.currentMap.getCellIsWalkable(x, y)) continue;
+                if (WorldMap.currentMap.getCellBackgroundID(x, y) == TileID.persistantPath) continue;
+
+                int waveV = y % 9;
+                int waveX = x - boundX;
+                if (waveV == (int)((4.5f * Mathf.Sin((float)waveX / 5.0f)) + 4.5f))
+                    WorldMap.currentMap.setCellBackground(x, y, TileID.grasslandTallGrass);
+
+
+                waveV = (y + 3) % 9;
+                if (waveV == (int)((4.5f * Mathf.Sin((float)waveX / 5.0f)) + 4.5f))
+                    WorldMap.currentMap.setCellBackground(x, y, TileID.grasslandTallGrass);
+
+
+                waveV = (y + 6) % 9;
+                if (waveV == (int)((4.5f * Mathf.Sin((float)waveX / 5.0f)) + 4.5f))
+                    WorldMap.currentMap.setCellBackground(x, y, TileID.grasslandTallGrass);
+
+            }
+        }
+
+        for (int j = 0; j < 7; j++) {
             List<Tuple<int, int>> encounterZone1 = new List<Tuple<int, int>>();
             encounterZone1.Add(getRandomWalkableTile());
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 6; i++) {
                 encounterZone1 = growSelection(encounterZone1, 0.2f);
             }
             replaceTiles(encounterZone1, TileID.grasslandDarkGrassEZ, false);

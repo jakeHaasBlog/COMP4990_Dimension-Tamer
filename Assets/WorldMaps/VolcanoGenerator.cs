@@ -17,10 +17,40 @@ public class VolcanoGenerator : BiomeGenerator
         Debug.Log("Volcano generating at " + boundX + ", " + boundY + "  width=" + boundWidth + " height=" + boundHeight);
 
         List<Tuple<int, int>> borderTiles = getBorderTiles();
-        borderTiles = growSelection(borderTiles);        
-        replaceTiles(borderTiles, TileID.water, false);
+        borderTiles = growSelection(borderTiles);
+    
+        List<Tuple<int, int>> lavaMoat = growSelection(borderTiles);
+        lavaMoat = growSelection(lavaMoat);
+        lavaMoat = growSelection(lavaMoat);
+        lavaMoat = growSelection(lavaMoat);
 
+        replaceTiles(lavaMoat, TileID.volcanoLavaPitMiddle, false);
+        replaceTiles(borderTiles, TileID.volcanoRockyGround, false);
 
+        List<TileID> lavaPitTiles = new List<TileID>();
+        lavaPitTiles.Add(TileID.volcanoLavaPitBottom);
+        lavaPitTiles.Add(TileID.volcanoLavaPitMiddle);
+        lavaPitTiles.Add(TileID.volcanoLavaPitTop);
+        for (int x = boundX; x < boundX + boundWidth; x++) {
+            for (int y = boundY; y < boundY + boundHeight; y++) {
+
+                if (WorldMap.currentMap.getCellBackgroundID(x, y) != TileID.volcanoLavaPitMiddle) continue;
+
+                if (!lavaPitTiles.Contains(WorldMap.currentMap.getCellBackgroundID(x, y - 1))) {
+                    // bottom of lava pit
+                    WorldMap.currentMap.setCellBackground(x, y, TileID.volcanoLavaPitBottom);
+                    continue;
+                } 
+
+                if (!lavaPitTiles.Contains(WorldMap.currentMap.getCellBackgroundID(x, y + 1))) {
+                    // top of lava pit
+                    WorldMap.currentMap.setCellBackground(x, y, TileID.volcanoLavaPitTop);
+                    continue;
+                }
+            }
+        }
+
+        // adding encounter zones
         for (int j = 0; j < 4; j++) {
             List<Tuple<int, int>> encounterZone1 = new List<Tuple<int, int>>();
             encounterZone1.Add(getRandomWalkableTile());
@@ -32,9 +62,10 @@ public class VolcanoGenerator : BiomeGenerator
 
             List<ElementalType> elements = new List<ElementalType>();
             elements.Add(ElementalType.fire);
+            elements.Add(ElementalType.none);
             int encounterZoneLevel = WorldMap.currentMap.worldNumber * 20;
             addEncounterZone(encounterZone1, elements, encounterZoneLevel);
-        }        
+        }
 
     }
 }

@@ -11,7 +11,6 @@ public class GenerateMap : MonoBehaviour {
     public Tilemap backgroundTilemap;
     public GenerateStartingWorld startingWorldGenerator;
     public GenerateEndingWorld endingWorldGenerator;
-    public GameObject portal;
 
     public GameObject scientists;
 
@@ -31,6 +30,7 @@ public class GenerateMap : MonoBehaviour {
     public void generateWorld(int worldNumber) {
 
         WorldMap.currentMap.clearAllCells();
+        PortalManager.instance.removePortals();
 
         if (worldNumber < 0 || worldNumber > 6) {
             Debug.Log("Error: Trying to set invalid world number: " + worldNumber);
@@ -60,9 +60,6 @@ public class GenerateMap : MonoBehaviour {
         CreatureManager.instance.encounterZones.Clear();
         CreatureManager.instance.encounterZoneElements.Clear();
         CreatureManager.instance.encounterZoneLevel.Clear();
-
-        // place portal
-        portal.transform.position = new Vector3(WorldMap.WIDTH / 2, WorldMap.HEIGHT / 2, portal.transform.position.z);
 
         // custom data structure to hold node graph
         // nodes have x, y position
@@ -203,6 +200,11 @@ public class GenerateMap : MonoBehaviour {
         // Generation order might matter for some biomes, can remove generators from list after generate is called
         for (int i = 0; i < biomeGenerators.Count; i++) {
             biomeGenerators[i].generate();
+
+            // add portal to some biomes
+            if (UnityEngine.Random.Range(0, 100) < 20) {
+                biomeGenerators[i].addPortal();
+            }
         }
 
 

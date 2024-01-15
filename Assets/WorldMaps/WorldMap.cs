@@ -12,13 +12,16 @@ class WorldCell {
 
 public class WorldMap {
 
-    public const int WIDTH = 500;
-    public const int HEIGHT = 500;
+    public static bool validateCoordsAsCircle = true;
+    public const int WIDTH = 400;
+    public const int HEIGHT = 400;
     public const int WATER_RING_THICKNESS = 50;
 
     public int worldNumber = 0;
 
     public static WorldMap currentMap = new WorldMap();
+
+    private WorldCell[,] worldCells;
 
     private WorldMap() {
         worldCells = new WorldCell[WIDTH,HEIGHT];
@@ -32,7 +35,8 @@ public class WorldMap {
 
     // returns true if the given coordinate is within the circular map
     public bool isValidCoord(int x, int y) {
-        //return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT; <-- old function when world was square
+
+        if (!validateCoordsAsCircle) return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT;
 
         float rad = (float)WIDTH / 2;
         rad -= WATER_RING_THICKNESS;
@@ -78,7 +82,13 @@ public class WorldMap {
     }
 
     public bool getCellIsWalkable(int x, int y) {
-        if (!isValidCoord(x, y)) return false;
+        bool wasCheckingCircle = validateCoordsAsCircle;
+        validateCoordsAsCircle = false;
+        if (!isValidCoord(x, y)) {
+            validateCoordsAsCircle = wasCheckingCircle;
+            return false;
+        }
+        validateCoordsAsCircle = wasCheckingCircle;
         
         TileID bgID = worldCells[x, y].backgroundTileID;
         TileID fgID = worldCells[x, y].foregroundTileID;
@@ -127,6 +137,6 @@ public class WorldMap {
         }
     }
 
-    private WorldCell[,] worldCells;
+    
     
 };

@@ -195,4 +195,29 @@ public abstract class BiomeGenerator {
         return false;
     }
 
+    public void addPortal() {
+        int giveUp = 0;
+        while (true) {
+            Tuple<int, int> tile = getRandomWalkableTile();
+            if (WorldMap.currentMap.getCellBackgroundID(tile.Item1, tile.Item2) == TileID.persistantPath) {
+
+                for (int dx = -1; dx < 2; dx++) {
+                    for (int dy = -1; dy < 2; dy++) {
+                        if (dx == 0 && dy == 0) continue;
+                        int x = tile.Item1 + dx;
+                        int y = tile.Item2 + dy;
+                        if (WorldMap.currentMap.getCellBackgroundID(x, y) != TileID.persistantPath && WorldMap.currentMap.getCellBackgroundID(x, y) != TileID.water) {
+                            PortalManager.instance.addPortal(x, y);
+                            return;
+                        }
+                    }
+                }
+
+            }
+            if (giveUp > 100) return;
+            giveUp++;
+        }
+
+    }
+
 }

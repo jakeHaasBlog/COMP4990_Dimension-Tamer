@@ -12,7 +12,6 @@ public class PlayerControls : MonoBehaviour
     public Grid tileGrid;
     public GameObject mainCamera;
     public int transitionFrames; // frames it takes to move from one tile to the next
-    public GameObject portal;
 
     public GameObject[] scientists;
 
@@ -31,7 +30,14 @@ public class PlayerControls : MonoBehaviour
     }
 
     bool isPortalTile(int x, int y) {
-        return (int)portal.transform.position.x == (x + 1) && (int)portal.transform.position.y == (y + 1);
+
+        for (int i = 0; i < PortalManager.instance.portals.Count; i++) {
+            if ((int)PortalManager.instance.portals[i].transform.position.x == (x + 1) && (int)PortalManager.instance.portals[i].transform.position.y == (y + 1)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     Vector3 getRealpos() {

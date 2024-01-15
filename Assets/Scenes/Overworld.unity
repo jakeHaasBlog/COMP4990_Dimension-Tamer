@@ -811,15 +811,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 253
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 248
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2041,8 +2041,6 @@ MonoBehaviour:
   backgroundTilemap: {fileID: 1362103987}
   startingWorldGenerator: {fileID: 308181957}
   endingWorldGenerator: {fileID: 308181959}
-  currentWorldNum: 0
-  portal: {fileID: 1450140409}
   scientists: {fileID: 859930927}
 --- !u!114 &308181957
 MonoBehaviour:
@@ -2056,7 +2054,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e98b88f60dc05d4b8a77c9a196cde98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapGenerator: {fileID: 308181956}
   player: {fileID: 1485993667}
 --- !u!114 &308181958
 MonoBehaviour:
@@ -2065,14 +2062,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308181953}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b77ccbc4a93732f45adbf3881b6cbdb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editModeEnabled: 0
+  editModeEnabled: 1
   levelEditorDisplay: {fileID: 636323883}
-  mapGenerator: {fileID: 308181956}
   player: {fileID: 1485993667}
   currentTileHeadingText: {fileID: 1275611593}
   currentTileText: {fileID: 952276552}
@@ -2088,7 +2084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c06c5b097a689d4897888df2c9b7948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapGenerator: {fileID: 308181956}
   player: {fileID: 1485993667}
 --- !u!1 &310177410
 GameObject:
@@ -2225,6 +2220,92 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310177410}
   m_CullTransparentMesh: 1
+--- !u!1001 &316360211
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 859930928}
+    m_Modifications:
+    - target: {fileID: 1304613027520329514, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_Name
+      value: Scientist (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 47
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 52
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1485993664}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: spriteNum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: scientistName
+      value: Phil
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[0]
+      value: Thank god you're here!
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[1]
+      value: Dr. McCure is waiting inside. He will explain your assignment in detail
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 663421259bd81734e8c728306a71f304, type: 3}
+--- !u!4 &316360212 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+  m_PrefabInstance: {fileID: 316360211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &325676154
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,6 +2428,112 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 325676154}
   m_CullTransparentMesh: 1
+--- !u!1001 &332164279
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 859930928}
+    m_Modifications:
+    - target: {fileID: 1304613027520329514, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_Name
+      value: Scientist (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1485993664}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: spriteNum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: scientistName
+      value: Lead Phyicist
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[0]
+      value: 'Our proprietary portal technology is this organization''s pride and
+        joy. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[1]
+      value: We have configured it to lock-on to Dave's cosmic footsteps so to speak.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[2]
+      value: Entering the portal will take you to a slice of spacetime where you
+        will be able to find additional portals to take you closer to Dave.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[3]
+      value: Our model predicts that you will experience a distortion of time. You
+        won't have much time to track him down...
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[4]
+      value: Dave is likely to seek out creatures containing the cosmic energy needed
+        for the ritual.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[5]
+      value: I fear to think what horrors you will face...
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 663421259bd81734e8c728306a71f304, type: 3}
+--- !u!4 &332164280 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+  m_PrefabInstance: {fileID: 332164279}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &357567453
 GameObject:
   m_ObjectHideFlags: 0
@@ -4647,7 +4834,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 308181955}
-  - {fileID: 1450140411}
+  - {fileID: 1400150876}
   - {fileID: 1485993665}
   - {fileID: 623380870}
   - {fileID: 859930928}
@@ -6238,6 +6425,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1183743760}
+  - {fileID: 332164280}
+  - {fileID: 316360212}
   - {fileID: 748945361}
   - {fileID: 164050643}
   m_Father: {fileID: 640301234}
@@ -7154,7 +7344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.0000076294, y: 15.315}
+  m_AnchoredPosition: {x: 0.0000076294, y: 15.314941}
   m_SizeDelta: {x: 353.8178, y: 30.6304}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1022571878
@@ -7807,6 +7997,106 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107638087}
   m_CullTransparentMesh: 1
+--- !u!1001 &1183743759
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 859930928}
+    m_Modifications:
+    - target: {fileID: 1304613027520329514, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_Name
+      value: Scientist (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 62
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1485993664}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: spriteNum
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: scientistName
+      value: CEO
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[0]
+      value: What will I do..
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[1]
+      value: Can MultiCorp survive this PR disaster!?
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[2]
+      value: Our model predicts that you will experience a distortion of time. You
+        won't have much time to track him down...
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[3]
+      value: Dave is likely to seek out creatures containing the cosmic energy needed
+        for the ritual.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504764262342964318, guid: 663421259bd81734e8c728306a71f304, type: 3}
+      propertyPath: dialogue.Array.data[4]
+      value: I fear to think what horrors you will face...
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 663421259bd81734e8c728306a71f304, type: 3}
+--- !u!4 &1183743760 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
+  m_PrefabInstance: {fileID: 1183743759}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1218130565
 GameObject:
   m_ObjectHideFlags: 0
@@ -9268,6 +9558,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392289514}
   m_CullTransparentMesh: 1
+--- !u!1 &1395327183 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1304613027520329514, guid: 663421259bd81734e8c728306a71f304, type: 3}
+  m_PrefabInstance: {fileID: 1183743759}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1395616204
 GameObject:
   m_ObjectHideFlags: 0
@@ -9563,6 +9858,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398830145}
   m_CullTransparentMesh: 1
+--- !u!1 &1400150875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1400150876}
+  - component: {fileID: 1400150877}
+  m_Layer: 0
+  m_Name: PortalManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1400150876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400150875}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 640301234}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1400150877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400150875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf077651573a8364fbf51544516c4dc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1485993664}
+  mapGenerator: {fileID: 308181956}
+  portals: []
 --- !u!1 &1405075449
 GameObject:
   m_ObjectHideFlags: 0
@@ -9852,15 +10194,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 250
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 248
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4437967386909795411, guid: 663421259bd81734e8c728306a71f304, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9920,16 +10262,6 @@ PrefabInstance:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1304613027520329514, guid: 663421259bd81734e8c728306a71f304, type: 3}
   m_PrefabInstance: {fileID: 1420949439}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1450140409 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8430116833017542655, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-  m_PrefabInstance: {fileID: 1672450533}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1450140411 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-  m_PrefabInstance: {fileID: 1672450533}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1472374041
 GameObject:
@@ -10066,6 +10398,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1472374041}
   m_CullTransparentMesh: 1
+--- !u!1 &1485700602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1304613027520329514, guid: 663421259bd81734e8c728306a71f304, type: 3}
+  m_PrefabInstance: {fileID: 316360211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1485993664
 GameObject:
   m_ObjectHideFlags: 0
@@ -10163,16 +10500,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e4b389181beb3b46a48cfd35d84aca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingX: 253
-  startingY: 245
+  startingX: 32
+  startingY: 50
   tileGrid: {fileID: 308181954}
-  generateMap: {fileID: 308181956}
   mainCamera: {fileID: 785326076}
   transitionFrames: 30
-  portal: {fileID: 1450140409}
   scientists:
   - {fileID: 1420949440}
   - {fileID: 116732072}
+  - {fileID: 1485700602}
+  - {fileID: 2039609639}
+  - {fileID: 1395327183}
   battleMenu: {fileID: 1315675007}
 --- !u!1 &1495184280
 GameObject:
@@ -11518,75 +11856,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662356931}
   m_CullTransparentMesh: 1
---- !u!1001 &1672450533
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 640301234}
-    m_Modifications:
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 111426659139866039, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4236642111949692367, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1485993664}
-    - target: {fileID: 4236642111949692367, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: mapGenerator
-      value: 
-      objectReference: {fileID: 308181956}
-    - target: {fileID: 4236642111949692367, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: promptDistance
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8430116833017542655, guid: fd3f624ff1566e842817137c420fe747, type: 3}
-      propertyPath: m_Name
-      value: Portal
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fd3f624ff1566e842817137c420fe747, type: 3}
 --- !u!1 &1673975355
 GameObject:
   m_ObjectHideFlags: 0
@@ -13930,6 +14199,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2023205016}
   m_CullTransparentMesh: 1
+--- !u!1 &2039609639 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1304613027520329514, guid: 663421259bd81734e8c728306a71f304, type: 3}
+  m_PrefabInstance: {fileID: 332164279}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2054468520
 GameObject:
   m_ObjectHideFlags: 0

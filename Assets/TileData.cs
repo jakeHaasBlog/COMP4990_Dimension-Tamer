@@ -9,28 +9,43 @@ using UnityEngine.UI;
 // To add a new tile: Add an enum name for it below, then load the tile into backgroundTiles or foregroundTiles (look at loadTiles() function)
 public enum TileID {
     // Starting World / endworld / universal (these ids must be in order for the level editor, other tiles will not be loaded by the editor)
-    labFloor = 000,
-    labWall = 001,
-    bookshelfBottom = 002,
-    bookshelfTop = 003,
-    labWallFront = 004,
-    lockerTop = 005,
-    lockerBottom = 006,
-    labTable = 007,
-    labTable1 = 008,
-    labTable2 = 009,
-    labTable3 = 010,
-    labTable4 = 011,
-    starting_grass1 = 012,
-    starting_grass2 = 013,
-    starting_grass3 = 014,
-    starting_grass4 = 015,
-    starting_grass5 = 016,
-    none = 017,
-    water = 018,
-    persistantPath = 019,
-    endWorldGround = 020,
-    endWorldWall = 021,
+    labFloor = 0,
+    labWall = 1,
+    bookshelfBottom = 2,
+    bookshelfTop = 3,
+    labWallFront = 4,
+    lockerTop = 5,
+    lockerBottom = 6,
+    labTable = 7,
+    labTable1 = 8,
+    labTable2 = 9,
+    labTable3 = 10,
+    labTable4 = 11,
+    starting_grass1 = 12,
+    starting_grass2 = 13,
+    starting_grass3 = 14,
+    starting_grass4 = 15,
+    starting_grass5 = 16,
+    none = 17,
+    water = 18,
+    persistantPath = 19,
+    endWorldGround = 20,
+    endWorldWall = 21,
+    endWorldBG1 = 22,
+    endWorldBG2 = 23,
+    endWorldBG3 = 24,
+    endWorldInterlock = 25,
+    endWorldPillarBottom = 26,
+    endWorldPillarMiddle = 27,
+    endWorldPillarTop = 28,
+    endWorldGroundEdgeBottom = 29,
+    endWorldGroundEdgeTL = 30,
+    endWorldGroundEdgeTR = 31,
+    endWorldGroundEdgeBL = 32,
+    endWorldGroundEdgeBR = 33,
+    endWorldGroundEdgeTop = 34,
+    endWorldGroundEdgeLeft = 35,
+    endWorldGroundEdgeRight = 36,
 
     // Grassland
     grasslandGrass = 300,
@@ -197,6 +212,10 @@ public static class TilemapData {
         // Volcano
         TilemapData.backgroundTiles.Add(TileID.volcanoCrackedGround, new TileProperties(loadTileFromPath("BiomeTiles/Volcano/volcanoCrackedGround"), true, false ));
         TilemapData.backgroundTiles.Add(TileID.volcanoDeepSiltEZ, new TileProperties(loadTileFromPath("BiomeTiles/Volcano/volcanoDeepSilt-ez"), true, true ));
+        TilemapData.backgroundTiles.Add(TileID.volcanoLavaPitBottom, new TileProperties(loadTileFromPath("BiomeTiles/Volcano/volcanoLavaPitBottom"), false, false ));
+        TilemapData.backgroundTiles.Add(TileID.volcanoLavaPitMiddle, new TileProperties(loadTileFromPath("BiomeTiles/Volcano/volcanoLavaPitMiddle"), false, false ));
+        TilemapData.backgroundTiles.Add(TileID.volcanoLavaPitTop, new TileProperties(loadTileFromPath("BiomeTiles/Volcano/volcanoLavaPitTop"), false, false ));
+        TilemapData.backgroundTiles.Add(TileID.volcanoRockyGround, new TileProperties(loadTileFromPath("BiomeTiles/Volcano/volcanoRockyGround"), false, false ));
 
         // Tropics
         TilemapData.backgroundTiles.Add(TileID.dryGrass, new TileProperties(loadTileFromPath("BiomeTiles/Tropics/dryGrass"), true, false ));
@@ -229,6 +248,25 @@ public static class TilemapData {
         TilemapData.backgroundTiles.Add(TileID.starting_grass3, new TileProperties(loadTileFromPath("StartingWorldTiles/grass3"), false, false ));
         TilemapData.backgroundTiles.Add(TileID.starting_grass4, new TileProperties(loadTileFromPath("StartingWorldTiles/grass4"), false, false ));
         TilemapData.backgroundTiles.Add(TileID.starting_grass5, new TileProperties(loadTileFromPath("StartingWorldTiles/grass5"), false, false ));
+
+        // Ending World
+        TilemapData.backgroundTiles.Add(TileID.endWorldBG1, new TileProperties(loadTileFromPath("EndingWorldTiles/background1"), false, false ));
+        TilemapData.backgroundTiles.Add(TileID.endWorldBG2, new TileProperties(loadTileFromPath("EndingWorldTiles/background2"), false, false ));
+        TilemapData.backgroundTiles.Add(TileID.endWorldBG3, new TileProperties(loadTileFromPath("EndingWorldTiles/background3"), false, false ));
+        TilemapData.backgroundTiles.Add(TileID.endWorldInterlock, new TileProperties(loadTileFromPath("EndingWorldTiles/interlock"), true, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldPillarTop, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldPillarTop"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldPillarMiddle, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldPillarMiddle"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldPillarBottom, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldPillarBottom"), false, false ));
+        TilemapData.backgroundTiles.Add(TileID.endWorldGround, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGround"), true, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldGroundEdgeBottom, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGroundEdgeBottom"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldGroundEdgeTop, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGroundEdgeTop"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldGroundEdgeLeft, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGroundEdgeLeft"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldGroundEdgeRight, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGroundEdgeRight"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldGroundEdgeTL, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGroundEdgeTL"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldGroundEdgeTR, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGroundEdgeTR"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldGroundEdgeBL, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGroundEdgeBL"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.endWorldGroundEdgeBR, new TileProperties(loadTileFromPath("EndingWorldTiles/endWorldGroundEdgeBR"), false, false ));
+
 
     }
 }

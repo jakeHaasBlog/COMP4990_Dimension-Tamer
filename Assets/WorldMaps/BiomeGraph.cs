@@ -90,7 +90,7 @@ public class BiomeGraph
         Stack<int> addedNodeIndices = new Stack<int>();
 
         // add starting node to graph and stack
-        addedNodeIndices.Push(addNode(250, 250, currentBranch));
+        addedNodeIndices.Push(addNode((int)startingPos.x, (int)startingPos.y, currentBranch));
 
         // Continue adding nodes until there are no spaces left to add them
         while (addedNodeIndices.Count > 0) {

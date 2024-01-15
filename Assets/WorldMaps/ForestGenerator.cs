@@ -39,6 +39,12 @@ public class ForestGenerator : BiomeGenerator
             addEncounterZone(tallGrassTiles, elements, encounterZoneLevel);
 
         }
+
+
+        for (int i = 0; i < (boundWidth * boundHeight) / 100; i++) {
+            Tuple<int, int> rTile = getRandomWalkableTile();
+            WorldMap.currentMap.setCellForeground(rTile.Item1, rTile.Item2, TileID.tree);
+        }
         
 
     }

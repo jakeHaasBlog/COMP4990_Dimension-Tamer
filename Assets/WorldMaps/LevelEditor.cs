@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using System.Linq;
 
 // Generate map and LevelEditor scripts have had their execution order set, so this script can depend on the GenerateMap Start method being called first
 
@@ -26,11 +27,17 @@ public class LevelEditor : MonoBehaviour
     {
         if (!editModeEnabled) return;
         
+        WorldMap.validateCoordsAsCircle = false;
         levelEditorDisplay.SetActive(true);
         readMapFromFIle();
+
     }
 
     void readMapFromFIle() {
+
+        bool previousSetting = WorldMap.validateCoordsAsCircle;
+        WorldMap.validateCoordsAsCircle = false;
+
         string path;
         if (WorldMap.currentMap.worldNumber == 0) path = Application.dataPath + "/WorldMaps/" + startWorldFileName + ".txt";
         else if (WorldMap.currentMap.worldNumber == 6) path = Application.dataPath + "/WorldMaps/" + endWorldFileName + ".txt";
@@ -62,6 +69,8 @@ public class LevelEditor : MonoBehaviour
 
         reader.Close();
 
+        WorldMap.validateCoordsAsCircle = previousSetting;
+
     }
 
     void saveCurrentMapToFile() {
@@ -72,17 +81,21 @@ public class LevelEditor : MonoBehaviour
 
         StreamWriter writer = new StreamWriter(path, append:false);
 
+        TileID[] excludedTiles = { TileID.none, TileID.water, TileID.endWorldBG1, TileID.endWorldBG2, TileID.endWorldBG3 };
+
         for (int x = 0; x < WorldMap.WIDTH; x++) {
             for (int y = 0; y < WorldMap.HEIGHT; y++) {
 
-                if (WorldMap.currentMap.getCellBackgroundID(x, y) != TileID.none) {
+                TileID bgID = WorldMap.currentMap.getCellBackgroundID(x, y);
+                if (!excludedTiles.Contains(bgID)) {
                     // write the background tile
-                    writer.WriteLine("b " + x + " " + y + " " + (int)WorldMap.currentMap.getCellBackgroundID(x, y));
+                    writer.WriteLine("b " + x + " " + y + " " + (int)bgID);
                 }
 
-                if (WorldMap.currentMap.getCellForegroundID(x, y) != TileID.none) {
+                TileID fgID = WorldMap.currentMap.getCellForegroundID(x, y);
+                if (fgID != TileID.none) {
                     // write the foreground tile
-                    writer.WriteLine("f " + x + " " + y + " " + (int)WorldMap.currentMap.getCellForegroundID(x, y));
+                    writer.WriteLine("f " + x + " " + y + " " + (int)fgID);
                 }
 
             }
@@ -107,6 +120,11 @@ public class LevelEditor : MonoBehaviour
     }
 
     public static void loadMapFromFile(string filepath) {
+
+        bool previousSetting = WorldMap.validateCoordsAsCircle;
+        WorldMap.validateCoordsAsCircle = false;
+
+
         StreamReader reader = new StreamReader(filepath);
         
         string line;
@@ -132,6 +150,8 @@ public class LevelEditor : MonoBehaviour
         }
 
         reader.Close();
+
+        WorldMap.validateCoordsAsCircle = previousSetting;
     }
 
     
@@ -301,11 +321,21 @@ public class LevelEditor : MonoBehaviour
         }
 
         if (addingForegroundElements) {
-            if (Input.GetKey("p") && TilemapData.foregroundTiles.ContainsKey((TileID)currentEquippedTileFG)) 
-                WorldMap.currentMap.setCellForeground(player.getTileX(), player.getTileY(), (TileID)currentEquippedTileFG);
+            if (Input.GetKey("p")) {
+                if (TilemapData.foregroundTiles.ContainsKey((TileID)currentEquippedTileFG)) {
+                    WorldMap.currentMap.setCellForeground(player.getTileX(), player.getTileY(), (TileID)currentEquippedTileFG);
+                } else {
+                    Debug.Log("Cannot place foreground with id: " + currentEquippedTileFG);
+                }
+            }
         } else {
-            if (Input.GetKey("p") && TilemapData.backgroundTiles.ContainsKey((TileID)currentEquippedTileBG)) 
-                WorldMap.currentMap.setCellBackground(player.getTileX(), player.getTileY(), (TileID)currentEquippedTileBG);
+            if (Input.GetKey("p")) {
+                if (TilemapData.backgroundTiles.ContainsKey((TileID)currentEquippedTileBG)) {
+                    WorldMap.currentMap.setCellBackground(player.getTileX(), player.getTileY(), (TileID)currentEquippedTileBG);
+                } else {
+                    Debug.Log("Cannot place background with id: " + currentEquippedTileBG);
+                }
+            }
         }
 
 

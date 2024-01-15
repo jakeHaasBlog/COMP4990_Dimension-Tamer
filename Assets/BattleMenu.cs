@@ -78,6 +78,7 @@ public class BattleMenu : MonoBehaviour
     }
 
     void usePlayerBattleAction(BattleAction action) {
+        if (CreatureManager.instance.playerCreatures[0] == null) return;
         if (CreatureManager.instance.playerCreatures[0].currentHP <= 0) return;
 
         int dmg = CreatureManager.instance.playerCreatures[0].getAttackDamage(action);
@@ -115,6 +116,8 @@ public class BattleMenu : MonoBehaviour
     }
 
     void useEnemyBattleAction(BattleAction action) {
+        if (enemyCreature == null) return;
+
         int dmg = enemyCreature.getAttackDamage(action);
         int heal = enemyCreature.getHealAmount(action);
         CreatureData enemyCreatureData = CreatureManager.instance.biomeCreatures[enemyCreature.getBiome()][(enemyCreature.getCreatureDataIndex())];
