@@ -114,6 +114,8 @@ public class WorldMap {
     }
 
     public int getCellBranchID(int x, int y) {
+        if (x < 0 || x >= WIDTH) return -1;
+        if (y < 0 || y >= HEIGHT) return -1;
         return worldCells[x, y].branchID;
     }
 

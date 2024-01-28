@@ -246,7 +246,7 @@ public class GenerateMap : MonoBehaviour {
                             if (biome == BiomeID.Grasslands) WorldMap.currentMap.setCellBackground(x, y, TileID.grasslandGrass);
                             else if (biome == BiomeID.Forest) WorldMap.currentMap.setCellBackground(x, y, TileID.grass);
                             else if (biome == BiomeID.PineForest) WorldMap.currentMap.setCellBackground(x, y, TileID.pineForestDirt);
-                            else if (biome == BiomeID.Mountain) WorldMap.currentMap.setCellBackground(x, y, TileID.rockyGroundEZ);
+                            else if (biome == BiomeID.Mountain) WorldMap.currentMap.setCellBackground(x, y, TileID.mountainGround);
                             else if (biome == BiomeID.Cave) WorldMap.currentMap.setCellBackground(x, y, TileID.caveGround);
                             else if (biome == BiomeID.Tundra) WorldMap.currentMap.setCellBackground(x, y, TileID.permafrost);
                             else if (biome == BiomeID.SnowyForest) WorldMap.currentMap.setCellBackground(x, y, TileID.snowyForestGround);

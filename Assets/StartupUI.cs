@@ -41,6 +41,7 @@ public class StartupUI : MonoBehaviour
     void loadPlaceholderCreatures() {
 
         string[] creaturePaths = new string[3] {"Creatures/placeholders/creature1", "Creatures/placeholders/creature2", "Creatures/placeholders/creature3"};
+        ElementalType[] elements = (ElementalType[])Enum.GetValues(typeof(ElementalType));
 
         foreach (BiomeID biome in Enum.GetValues(typeof(BiomeID))) {
 
@@ -49,7 +50,7 @@ public class StartupUI : MonoBehaviour
                 
                 CreatureManager.instance.biomeCreatures[biome].Add(new CreatureData(
                     loadCreatureTexture(s),
-                    ElementalType.water,
+                    elements[UnityEngine.Random.Range(0, elements.Length)],
                     60 + UnityEngine.Random.Range(-10, 10), // max hp
                     20 + UnityEngine.Random.Range(-10, 10), // defence
                     10 + UnityEngine.Random.Range(-10, 10), // speed

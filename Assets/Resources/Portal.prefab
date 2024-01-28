@@ -763,6 +763,7 @@ MonoBehaviour:
   promptDistance: 10
   mapGenerator: {fileID: 0}
   loadingScreen: {fileID: 5329867604449791968}
+  soundEffect: {fileID: 8300000, guid: 08dde6462744d454b98df8af60cc01f3, type: 3}
 --- !u!82 &5081659971396405425
 AudioSource:
   m_ObjectHideFlags: 0

@@ -20,6 +20,16 @@ public class SnowyForestGenerator : BiomeGenerator
         borderTiles = growSelection(borderTiles);        
         replaceTiles(borderTiles, TileID.water, false);
 
+        for (int i = 0; i < (boundWidth * boundHeight) / 5; i++) {
+            int dx = UnityEngine.Random.Range(0, boundWidth / 2) * 2;
+            int dy = UnityEngine.Random.Range(0, boundHeight / 2) * 2;
+
+            if (WorldMap.currentMap.getCellBranchID(boundX + dx, boundY + dy) != branchID) continue;
+            if (!WorldMap.currentMap.getCellIsWalkable(boundX + dx, boundY + dy)) continue;
+
+            WorldMap.currentMap.setCellForeground(boundX + dx, boundY + dy, TileID.snowTree);
+        } 
+
 
         for (int j = 0; j < 4; j++) {
             List<Tuple<int, int>> encounterZone1 = new List<Tuple<int, int>>();

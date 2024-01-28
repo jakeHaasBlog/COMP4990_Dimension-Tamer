@@ -71,6 +71,7 @@ public enum TileID {
     mountainSide = 600,
     rockyGroundEZ = 601,
     boulder = 602,
+    mountainGround = 603,
 
     // Cave
     caveGround = 700,
@@ -82,6 +83,9 @@ public enum TileID {
     permafrost = 800,
     tundraIce = 801,
     tundraRoughGroundEZ = 802,
+    tundraGrass = 803,
+    tundraRedGrass = 804,
+    tundraRocks = 805,
 
     // SnowyForest
     snowTree = 900,
@@ -117,8 +121,10 @@ public enum TileID {
 
     // Secret Meadow
     secretGrass = 1400,
-    secretRock = 1401,
-    meadowFlowersEZ = 1402,
+    secretGrass2 = 1401,
+    secretGrass3 = 1402,
+    secretRock = 1403,
+    meadowFlowersEZ = 1404,
 }
 
 public class TileProperties {
@@ -179,13 +185,14 @@ public static class TilemapData {
         TilemapData.backgroundTiles.Add(TileID.pineForestDirt, new TileProperties(loadTileFromPath("BiomeTiles/PineForest/pineForestDirt"), true, false ));
         TilemapData.backgroundTiles.Add(TileID.needleCoveredGroud, new TileProperties(loadTileFromPath("BiomeTiles/PineForest/needleCoveredGround"), true, false ));
         TilemapData.backgroundTiles.Add(TileID.pineForestShrubEZ, new TileProperties(loadTileFromPath("BiomeTiles/PineForest/pineForestShrub-ez"), true, true ));
-        //TilemapData.backgroundTiles.Add(TileID.pineTreeBottom, new TileProperties(loadTileFromPath("BiomeTiles/PineForest/pineTreeBottom"), true, true ));
-        //TilemapData.backgroundTiles.Add(TileID.pineTreeTop, new TileProperties(loadTileFromPath("BiomeTiles/PineForest/pineTreeTop"), true, true ));
+        TilemapData.foregroundTiles.Add(TileID.pineTreeBottom, new TileProperties(loadTileFromPath("BiomeTiles/PineForest/pineTreeBottom"), false, false ));
+        TilemapData.foregroundTiles.Add(TileID.pineTreeTop, new TileProperties(loadTileFromPath("BiomeTiles/PineForest/pineTreeTop"), false, false ));
 
         // Mountain
-        TilemapData.backgroundTiles.Add(TileID.mountainSide, new TileProperties(loadTileFromPath("BiomeTiles/Mountain/mountainSide"), true, false ));
+        TilemapData.backgroundTiles.Add(TileID.mountainSide, new TileProperties(loadTileFromPath("BiomeTiles/Mountain/mountainSide"), false, false ));
         TilemapData.backgroundTiles.Add(TileID.rockyGroundEZ, new TileProperties(loadTileFromPath("BiomeTiles/Mountain/rockyGround-ez"), true, true ));
         TilemapData.foregroundTiles.Add(TileID.boulder, new TileProperties(loadTileFromPath("BiomeTiles/Mountain/boulder"), false, false ));
+        TilemapData.backgroundTiles.Add(TileID.mountainGround, new TileProperties(loadTileFromPath("BiomeTiles/Mountain/mountainGround"), true, false ));
 
         // Cave
         TilemapData.backgroundTiles.Add(TileID.caveGround, new TileProperties(loadTileFromPath("BiomeTiles/Cave/caveGround"), true, false ));
@@ -197,10 +204,14 @@ public static class TilemapData {
         TilemapData.backgroundTiles.Add(TileID.permafrost, new TileProperties(loadTileFromPath("BiomeTiles/Tundra/permafrost"), true, false ));
         TilemapData.backgroundTiles.Add(TileID.tundraIce, new TileProperties(loadTileFromPath("BiomeTiles/Tundra/tundraIce"), true, false ));
         TilemapData.backgroundTiles.Add(TileID.tundraRoughGroundEZ, new TileProperties(loadTileFromPath("BiomeTiles/Tundra/roughGround-ez"), true, true ));
+        TilemapData.backgroundTiles.Add(TileID.tundraGrass, new TileProperties(loadTileFromPath("BiomeTiles/Tundra/tundraGrass"), true, false ));
+        TilemapData.backgroundTiles.Add(TileID.tundraRedGrass, new TileProperties(loadTileFromPath("BiomeTiles/Tundra/tundraRedGrass"), true, false ));
+        TilemapData.foregroundTiles.Add(TileID.tundraRocks, new TileProperties(loadTileFromPath("BiomeTiles/Tundra/tundraRocks"), true, false ));
 
         // SnowyForest
         TilemapData.backgroundTiles.Add(TileID.snowyForestGround, new TileProperties(loadTileFromPath("BiomeTiles/SnowyForest/snowyForestGround"), true, false ));
         TilemapData.backgroundTiles.Add(TileID.snowyForestDeepSnowEZ, new TileProperties(loadTileFromPath("BiomeTiles/SnowyForest/deepSnow-ez"), true, false ));
+        TilemapData.foregroundTiles.Add(TileID.snowTree, new TileProperties(loadTileFromPath("BiomeTiles/SnowyForest/snowTree"), false, false ));
         
         // Ice Pond
         TilemapData.foregroundTiles.Add(TileID.snowyGravelPath, new TileProperties(loadTileFromPath("BiomeTiles/IcePond/snowyGravelPath"), true, false ));
@@ -218,6 +229,7 @@ public static class TilemapData {
         TilemapData.backgroundTiles.Add(TileID.volcanoRockyGround, new TileProperties(loadTileFromPath("BiomeTiles/Volcano/volcanoRockyGround"), false, false ));
 
         // Tropics
+        TilemapData.foregroundTiles.Add(TileID.palmTree, new TileProperties(loadTileFromPath("BiomeTiles/Tropics/palmTree"), false, false ));
         TilemapData.backgroundTiles.Add(TileID.dryGrass, new TileProperties(loadTileFromPath("BiomeTiles/Tropics/dryGrass"), true, false ));
         TilemapData.backgroundTiles.Add(TileID.tropicsWheatEZ, new TileProperties(loadTileFromPath("BiomeTiles/Tropics/tropicsWheat-ez"), true, true ));
 
@@ -228,6 +240,8 @@ public static class TilemapData {
 
         // Secret Meadow
         TilemapData.backgroundTiles.Add(TileID.secretGrass, new TileProperties(loadTileFromPath("BiomeTiles/SecretMeadow/secretGrass"), true, false ));
+        TilemapData.backgroundTiles.Add(TileID.secretGrass2, new TileProperties(loadTileFromPath("BiomeTiles/SecretMeadow/secretGrass2"), true, false ));
+        TilemapData.backgroundTiles.Add(TileID.secretGrass3, new TileProperties(loadTileFromPath("BiomeTiles/SecretMeadow/secretGrass3"), true, false ));
         TilemapData.backgroundTiles.Add(TileID.meadowFlowersEZ, new TileProperties(loadTileFromPath("BiomeTiles/SecretMeadow/meadowFlowers-ez"), true, true ));
 
         // Starting World

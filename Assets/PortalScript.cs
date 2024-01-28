@@ -12,10 +12,9 @@ public class PortalScript : MonoBehaviour
     public GenerateMap mapGenerator;
     public GameObject loadingScreen;
 
-    private AudioSource portalSoundEffect;
+    public AudioClip soundEffect;
 
     void Start() {
-        portalSoundEffect = GetComponent<AudioSource>();
         loadingScreen.SetActive(false);
     }
 
@@ -25,7 +24,6 @@ public class PortalScript : MonoBehaviour
         if (tpNextFrame) {
             tpNextFrame = false;
             mapGenerator.generateWorld(WorldMap.currentMap.worldNumber + 1);
-            player.GetComponent<PlayerControls>().setPosition(WorldMap.WIDTH / 2, WorldMap.HEIGHT / 2);
             if (WorldMap.currentMap.worldNumber == 6) {
                 player.GetComponent<PlayerControls>().setPosition(32, 50);
                 gameObject.SetActive(false);
@@ -47,8 +45,12 @@ public class PortalScript : MonoBehaviour
         promptObject.SetActive(true);
 
         if (Input.GetKeyDown("q")) {
-            portalSoundEffect.Play();
+            AudioSource audio = ((GameObject) Instantiate(gameObject, transform.position, Quaternion.identity)).GetComponent<AudioSource>();
+            audio.clip = soundEffect;
+            audio.Play();
+
             loadingScreen.SetActive(true);
+            player.GetComponent<PlayerControls>().setPosition(WorldMap.WIDTH / 2, WorldMap.HEIGHT / 2);
             tpNextFrame = true;
         }
 

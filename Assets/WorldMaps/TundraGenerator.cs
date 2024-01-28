@@ -20,6 +20,39 @@ public class TundraGenerator : BiomeGenerator
         borderTiles = growSelection(borderTiles);        
         replaceTiles(borderTiles, TileID.water, false);
 
+        // grass splotches
+        for (int i = 0; i < 30; i++) {
+            Tuple<int, int> p = getRandomWalkableTile();
+            List<Tuple<int, int>> splotch = new List<Tuple<int, int>>();
+            splotch.Add(p);
+
+            for (int j = 0; j < 10; j++) {
+                splotch = growSelection(splotch, 0.5f);
+            } 
+
+            p = splotch[UnityEngine.Random.Range(0, splotch.Count)];
+            List<Tuple<int, int>> redGrass = new List<Tuple<int, int>>();
+            redGrass.Add(p);
+
+            for (int j = 0; j < 5; j++) {
+                redGrass = growSelection(redGrass, 0.5f);
+            } 
+
+            replaceTiles(splotch, TileID.tundraGrass, false);
+            replaceTiles(redGrass, TileID.tundraRedGrass, false);
+
+        }
+
+        // rocks
+        for (int i = 0; i < 30; i++) {
+            int dx = UnityEngine.Random.Range(0, boundWidth);
+            int dy = UnityEngine.Random.Range(0, boundHeight);
+            if (WorldMap.currentMap.getCellBranchID(boundX + dx, boundY + dy) != branchID) continue;
+
+            WorldMap.currentMap.setCellForeground(boundX + dx, boundY + dy, TileID.tundraRocks);
+        }
+
+
 
         for (int j = 0; j < 4; j++) {
             List<Tuple<int, int>> encounterZone1 = new List<Tuple<int, int>>();

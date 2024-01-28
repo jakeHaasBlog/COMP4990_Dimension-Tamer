@@ -152,9 +152,46 @@ public class Creature {
         return (int)dmg;
     }
 
+    public int getAttackDamage(BattleAction action, ElementalType against) {
+
+        List<Tuple<ElementalType, ElementalType>> fourTimesEffective = new List<Tuple<ElementalType, ElementalType>>() 
+        {
+            Tuple.Create(ElementalType.fire, ElementalType.ice),
+            Tuple.Create(ElementalType.fire, ElementalType.grass),
+
+            Tuple.Create(ElementalType.water, ElementalType.fire),
+            Tuple.Create(ElementalType.water, ElementalType.poison),
+            Tuple.Create(ElementalType.water, ElementalType.dark),
+
+            Tuple.Create(ElementalType.ice, ElementalType.grass),
+            Tuple.Create(ElementalType.ice, ElementalType.water),
+            Tuple.Create(ElementalType.ice, ElementalType.none),
+
+            Tuple.Create(ElementalType.poison, ElementalType.none),
+            Tuple.Create(ElementalType.poison, ElementalType.dark),
+
+            Tuple.Create(ElementalType.dark, ElementalType.poison),
+            Tuple.Create(ElementalType.dark, ElementalType.fire),
+
+            Tuple.Create(ElementalType.grass, ElementalType.water),
+            Tuple.Create(ElementalType.grass, ElementalType.none)
+        }; 
+        
+        bool isFourTimesEffective = false;
+        for (int i = 0; i < fourTimesEffective.Count; i++) {
+            if (action.element == fourTimesEffective[i].Item1 && fourTimesEffective[i].Item2 == against) {
+                isFourTimesEffective = true;
+            }
+        }
+        
+        if (isFourTimesEffective) return getAttackDamage(action) * 4;
+        return getAttackDamage(action);
+
+    }
+
     public int getHealAmount(BattleAction action) {
         float healing = (float)action.healRatio;
-        healing *= ((float)level / 10.0f) + 1.0f;
+        healing *= ((float)level) + 1.0f;
         return (int)healing;
     }
 

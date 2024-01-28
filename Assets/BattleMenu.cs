@@ -21,6 +21,9 @@ public class BattleMenu : MonoBehaviour
     public TMPro.TextMeshProUGUI battleAction2Text;
     public TMPro.TextMeshProUGUI battleAction3Text;
 
+    public TMPro.TextMeshProUGUI playerElementText;
+    public TMPro.TextMeshProUGUI enemyElementText;
+
     public OverworldUI overworldUI;
 
 
@@ -39,12 +42,33 @@ public class BattleMenu : MonoBehaviour
 
         playerCreatureImage.sprite = playerCreatureData.image;
         playerCreatureHPText.text = "HP: " + playerCreature.currentHP + "/" + playerCreatureData.maxHP;
-        battleAction1Text.text = playerCreature.action1.name + " - DMG: " + playerCreature.getAttackDamage(playerCreature.action1) + " HP: " + playerCreature.getHealAmount(playerCreature.action1);
-        battleAction2Text.text = playerCreature.action2.name + " - DMG: " + playerCreature.getAttackDamage(playerCreature.action2) + " HP: " + playerCreature.getHealAmount(playerCreature.action2);
-        battleAction3Text.text = playerCreature.action3.name + " - DMG: " + playerCreature.getAttackDamage(playerCreature.action3) + " HP: " + playerCreature.getHealAmount(playerCreature.action3);
 
+        String elementString = playerCreature.action1.element.ToString() + " : ";
+        String dmgStr = "DMG " + (playerCreature.getAttackDamage(playerCreature.action1) * 0.9f) + " - " + (playerCreature.getAttackDamage(playerCreature.action1) * 1.1f);
+        String healStr = "Heal" + (playerCreature.getHealAmount(playerCreature.action1) * 0.9f) + " - " + (playerCreature.getHealAmount(playerCreature.action1) * 1.1f);
+        if (playerCreature.getAttackDamage(playerCreature.action1) <= 0) battleAction1Text.text = elementString + playerCreature.action1.name + " - " + healStr;
+        else if (playerCreature.getHealAmount(playerCreature.action1) < 0) battleAction1Text.text = elementString + playerCreature.action1.name + " - " + dmgStr;
+        else battleAction1Text.text = elementString + playerCreature.action1.name + " - " + dmgStr + " - " + healStr;
+
+        elementString = playerCreature.action2.element.ToString() + " : ";
+        dmgStr = "DMG " + (playerCreature.getAttackDamage(playerCreature.action2) * 0.9f) + " - " + (playerCreature.getAttackDamage(playerCreature.action2) * 1.1f);
+        healStr = "Heal" + (playerCreature.getHealAmount(playerCreature.action2) * 0.9f) + " - " + (playerCreature.getHealAmount(playerCreature.action2) * 1.1f);
+        if (playerCreature.getAttackDamage(playerCreature.action2) <= 0) battleAction2Text.text = elementString + playerCreature.action2.name + " - " + healStr;
+        else if (playerCreature.getHealAmount(playerCreature.action2) < 0) battleAction2Text.text = elementString + playerCreature.action2.name + " - " + dmgStr;
+        else battleAction2Text.text = elementString + playerCreature.action2.name + " - " + dmgStr + " - " + healStr;
+
+        elementString = playerCreature.action3.element.ToString() + " : ";
+        dmgStr = "DMG " + (playerCreature.getAttackDamage(playerCreature.action3) * 0.9f) + " - " + (playerCreature.getAttackDamage(playerCreature.action3) * 1.1f);
+        healStr = "Heal" + (playerCreature.getHealAmount(playerCreature.action3) * 0.9f) + " - " + (playerCreature.getHealAmount(playerCreature.action3) * 1.1f);
+        if (playerCreature.getAttackDamage(playerCreature.action3) <= 0) battleAction3Text.text = elementString + playerCreature.action3.name + " - " + healStr;
+        else if (playerCreature.getHealAmount(playerCreature.action3) < 0) battleAction3Text.text = elementString + playerCreature.action3.name + " - " + dmgStr;
+        else battleAction3Text.text = elementString + playerCreature.action3.name + " - " + dmgStr + " - " + healStr;
+        
         enemyCreatureImage.sprite = enemyCreatureData.image;
         enemyCreatureHPText.text = "HP: " + enemyCreature.currentHP + "/" + enemyCreatureData.maxHP;
+
+        playerElementText.text = "Element - " + playerCreatureData.type.ToString();
+        enemyElementText.text = "Element - " + enemyCreatureData.type.ToString();
     }
 
     public void beginEncounter(int encounterZoneID) {
@@ -78,10 +102,12 @@ public class BattleMenu : MonoBehaviour
     }
 
     void usePlayerBattleAction(BattleAction action) {
+
         if (CreatureManager.instance.playerCreatures[0] == null) return;
         if (CreatureManager.instance.playerCreatures[0].currentHP <= 0) return;
 
-        int dmg = CreatureManager.instance.playerCreatures[0].getAttackDamage(action);
+        CreatureData enemyCreatureData = CreatureManager.instance.biomeCreatures[enemyCreature.getBiome()][(enemyCreature.getCreatureDataIndex())];
+        int dmg = CreatureManager.instance.playerCreatures[0].getAttackDamage(action, enemyCreatureData.type);
         int heal = CreatureManager.instance.playerCreatures[0].getHealAmount(action);
         CreatureData playerCreatureData = CreatureManager.instance.biomeCreatures[CreatureManager.instance.playerCreatures[0].getBiome()][(CreatureManager.instance.playerCreatures[0].getCreatureDataIndex())];
 

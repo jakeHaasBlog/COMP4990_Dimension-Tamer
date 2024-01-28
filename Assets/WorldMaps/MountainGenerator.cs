@@ -17,9 +17,24 @@ public class MountainGenerator : BiomeGenerator
         Debug.Log("Mountain generating at " + boundX + ", " + boundY + "  width=" + boundWidth + " height=" + boundHeight);
 
 
-        List<Tuple<int, int>> borderTiles = getBorderTiles();
-        borderTiles = growSelection(borderTiles);        
-        replaceTiles(borderTiles, TileID.water, false);
+        for (int x = boundX; x < boundX + boundWidth; x++) {
+            for (int y = boundY; y < boundY + boundHeight; y++) {
+                if (WorldMap.currentMap.getCellBranchID(x, y) != branchID) continue;
+                if (WorldMap.currentMap.getCellBackgroundID(x, y) == TileID.persistantPath) continue;
+
+
+                if (WorldMap.currentMap.getCellBranchID(x, y - 1) != branchID || WorldMap.currentMap.getCellBackgroundID(x, y - 1) == TileID.water || !WorldMap.currentMap.isValidCoord(x, y-1)) {
+                    growCliffside(x, y);
+                } else {
+                    if (WorldMap.currentMap.getCellIsWalkable(x, y)) {
+                        if (UnityEngine.Random.Range(0, 100) < 10) {
+                            WorldMap.currentMap.setCellForeground(x, y, TileID.boulder);
+                        }
+                    }
+                }
+
+            }
+        }
 
 
         for (int j = 0; j < 4; j++) {
@@ -37,5 +52,16 @@ public class MountainGenerator : BiomeGenerator
             int encounterZoneLevel = WorldMap.currentMap.worldNumber * 20;
             addEncounterZone(encounterZone1, elements, encounterZoneLevel);
         }
+    }
+
+    void growCliffside(int x, int y) {
+        for (int i = 0; i < 5; i++) {
+            if (WorldMap.currentMap.getCellBackgroundID(x, y + i) == TileID.persistantPath) break;
+            WorldMap.currentMap.setCellBackground(x, y, TileID.mountainSide);
+            y++;
+        }
+
+        WorldMap.currentMap.setCellBackground(x, y, TileID.mountainSide);
+
     }
 }
