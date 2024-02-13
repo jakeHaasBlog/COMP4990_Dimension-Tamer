@@ -88,10 +88,10 @@ public class PlayerInventory : MonoBehaviour
             CreatureData creatureData = CreatureManager.instance.biomeCreatures[CreatureManager.instance.playerCreatures[i].getBiome()][(CreatureManager.instance.playerCreatures[i].getCreatureDataIndex())];
             creatureCanvases_canvasImages[i].sprite = creatureData.image;
             
-            creatureCanvases_nameAndLevelText[i].text = "name - Lvl: " + CreatureManager.instance.playerCreatures[i].level;
+            creatureCanvases_nameAndLevelText[i].text = "name - Lvl: " + CreatureManager.instance.playerCreatures[i].getLevel();
 
             creatureCanvases_infoText[i].text = "";
-            creatureCanvases_infoText[i].text += "HP: " + CreatureManager.instance.playerCreatures[i].currentHP + " / " + creatureData.maxHP + "\n";
+            creatureCanvases_infoText[i].text += "HP: " + CreatureManager.instance.playerCreatures[i].currentHP + " / " + CreatureManager.instance.playerCreatures[i].getMaxHP() + "\n";
             creatureCanvases_infoText[i].text += "Type: " + creatureData.type.ToString() + "\n";
             creatureCanvases_infoText[i].text += "Defence: " + creatureData.defence + "\n";
             creatureCanvases_infoText[i].text += "Speed: " + creatureData.speed + "\n";

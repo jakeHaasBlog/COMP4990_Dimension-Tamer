@@ -26,6 +26,7 @@ public class SnowyForestGenerator : BiomeGenerator
 
             if (WorldMap.currentMap.getCellBranchID(boundX + dx, boundY + dy) != branchID) continue;
             if (!WorldMap.currentMap.getCellIsWalkable(boundX + dx, boundY + dy)) continue;
+            if (WorldMap.currentMap.getCellBackgroundID(boundX + dx, boundY + dy) == TileID.persistantPath) continue;
 
             WorldMap.currentMap.setCellForeground(boundX + dx, boundY + dy, TileID.snowTree);
         } 

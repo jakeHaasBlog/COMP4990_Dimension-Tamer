@@ -61,8 +61,7 @@ public class CreatureManager : MonoBehaviour
         BattleAction action2 = allActions[UnityEngine.Random.Range(0, allActions.Length)];
         BattleAction action3 = allActions[UnityEngine.Random.Range(0, allActions.Length)];
 
-        Creature creature = new Creature(biome, creatureIndex, action1, action2, action3);
-        creature.level = UnityEngine.Random.Range(0, 100);
+        Creature creature = new Creature(biome, creatureIndex, action1, action2, action3, UnityEngine.Random.Range(0, 100));
         return creature;
     }
 
@@ -121,13 +120,14 @@ public class CreatureData {
 }
 
 public class Creature {
-    public Creature(BiomeID biome, int creatureDataIndex, BattleAction action1, BattleAction action2, BattleAction action3) {
+    public Creature(BiomeID biome, int creatureDataIndex, BattleAction action1, BattleAction action2, BattleAction action3, int level) {
         this.action1 = action1;
         this.action2 = action2;
         this.action3 = action3;
 
         this.biome = biome;
         this.creatureDataIndex = creatureDataIndex;
+        this.level = level;
 
         currentHP = getMaxHP();
     }
@@ -156,25 +156,18 @@ public class Creature {
 
         List<Tuple<ElementalType, ElementalType>> fourTimesEffective = new List<Tuple<ElementalType, ElementalType>>() 
         {
-            Tuple.Create(ElementalType.fire, ElementalType.ice),
+            Tuple.Create(ElementalType.grass, ElementalType.water),
+            Tuple.Create(ElementalType.water, ElementalType.fire),
             Tuple.Create(ElementalType.fire, ElementalType.grass),
 
-            Tuple.Create(ElementalType.water, ElementalType.fire),
-            Tuple.Create(ElementalType.water, ElementalType.poison),
-            Tuple.Create(ElementalType.water, ElementalType.dark),
+            Tuple.Create(ElementalType.poison, ElementalType.grass),
+            Tuple.Create(ElementalType.poison, ElementalType.fire),
 
             Tuple.Create(ElementalType.ice, ElementalType.grass),
             Tuple.Create(ElementalType.ice, ElementalType.water),
-            Tuple.Create(ElementalType.ice, ElementalType.none),
 
-            Tuple.Create(ElementalType.poison, ElementalType.none),
-            Tuple.Create(ElementalType.poison, ElementalType.dark),
-
-            Tuple.Create(ElementalType.dark, ElementalType.poison),
+            Tuple.Create(ElementalType.dark, ElementalType.water),
             Tuple.Create(ElementalType.dark, ElementalType.fire),
-
-            Tuple.Create(ElementalType.grass, ElementalType.water),
-            Tuple.Create(ElementalType.grass, ElementalType.none)
         }; 
         
         bool isFourTimesEffective = false;
@@ -183,8 +176,23 @@ public class Creature {
                 isFourTimesEffective = true;
             }
         }
+
+        List<Tuple<ElementalType, ElementalType>> twoTimesEffective = new List<Tuple<ElementalType, ElementalType>>() 
+        {
+            Tuple.Create(ElementalType.none, ElementalType.poison),
+            Tuple.Create(ElementalType.none, ElementalType.ice),
+            Tuple.Create(ElementalType.none, ElementalType.dark),
+        }; 
+        
+        bool isTwoTimesEffective = false;
+        for (int i = 0; i < twoTimesEffective.Count; i++) {
+            if (action.element == twoTimesEffective[i].Item1 && twoTimesEffective[i].Item2 == against) {
+                isTwoTimesEffective = true;
+            }
+        }
         
         if (isFourTimesEffective) return getAttackDamage(action) * 4;
+        if (isTwoTimesEffective) return getAttackDamage(action) * 2;
         return getAttackDamage(action);
 
     }
@@ -206,7 +214,10 @@ public class Creature {
     private BiomeID biome;
     private int creatureDataIndex;
 
-    public int level;
+    private int level;
+    public int getLevel() {
+        return level;
+    }
     public int currentHP;
     public BattleAction action1;
     public BattleAction action2;

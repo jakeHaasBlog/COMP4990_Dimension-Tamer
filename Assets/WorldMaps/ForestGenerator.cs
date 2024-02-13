@@ -43,6 +43,7 @@ public class ForestGenerator : BiomeGenerator
 
         for (int i = 0; i < (boundWidth * boundHeight) / 100; i++) {
             Tuple<int, int> rTile = getRandomWalkableTile();
+            if (WorldMap.currentMap.getCellBackgroundID(rTile.Item1, rTile.Item2) == TileID.persistantPath) continue;
             WorldMap.currentMap.setCellForeground(rTile.Item1, rTile.Item2, TileID.tree);
         }
         

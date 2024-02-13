@@ -25,7 +25,7 @@ public class PortalScript : MonoBehaviour
             tpNextFrame = false;
             mapGenerator.generateWorld(WorldMap.currentMap.worldNumber + 1);
             if (WorldMap.currentMap.worldNumber == 6) {
-                player.GetComponent<PlayerControls>().setPosition(32, 50);
+                //player.GetComponent<PlayerControls>().setPosition(32, 50);
                 gameObject.SetActive(false);
             }
             return;
@@ -50,7 +50,6 @@ public class PortalScript : MonoBehaviour
             audio.Play();
 
             loadingScreen.SetActive(true);
-            player.GetComponent<PlayerControls>().setPosition(WorldMap.WIDTH / 2, WorldMap.HEIGHT / 2);
             tpNextFrame = true;
         }
 

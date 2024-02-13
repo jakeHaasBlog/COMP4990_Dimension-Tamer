@@ -24,6 +24,11 @@ public class StartupUI : MonoBehaviour
             loadPlaceholderCreatures();
         }
 
+        TilemapData.foregroundTiles = new Dictionary<TileID, TileProperties>();
+        TilemapData.backgroundTiles = new Dictionary<TileID, TileProperties>();
+        TilemapData.loadFromServer = canLoadFromServer;
+        TilemapData.loadTiles();
+
         SceneManager.LoadScene("Overworld");
     }
 

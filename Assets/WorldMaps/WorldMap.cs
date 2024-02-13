@@ -13,8 +13,8 @@ class WorldCell {
 public class WorldMap {
 
     public static bool validateCoordsAsCircle = true;
-    public const int WIDTH = 400;
-    public const int HEIGHT = 400;
+    public const int WIDTH = 350;
+    public const int HEIGHT = 350;
     public const int WATER_RING_THICKNESS = 50;
 
     public int worldNumber = 0;

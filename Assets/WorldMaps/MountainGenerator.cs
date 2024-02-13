@@ -26,7 +26,7 @@ public class MountainGenerator : BiomeGenerator
                 if (WorldMap.currentMap.getCellBranchID(x, y - 1) != branchID || WorldMap.currentMap.getCellBackgroundID(x, y - 1) == TileID.water || !WorldMap.currentMap.isValidCoord(x, y-1)) {
                     growCliffside(x, y);
                 } else {
-                    if (WorldMap.currentMap.getCellIsWalkable(x, y)) {
+                    if (WorldMap.currentMap.getCellIsWalkable(x, y) && WorldMap.currentMap.getCellBackgroundID(x, y) != TileID.persistantPath) {
                         if (UnityEngine.Random.Range(0, 100) < 10) {
                             WorldMap.currentMap.setCellForeground(x, y, TileID.boulder);
                         }
@@ -57,11 +57,13 @@ public class MountainGenerator : BiomeGenerator
     void growCliffside(int x, int y) {
         for (int i = 0; i < 5; i++) {
             if (WorldMap.currentMap.getCellBackgroundID(x, y + i) == TileID.persistantPath) break;
+
             WorldMap.currentMap.setCellBackground(x, y, TileID.mountainSide);
             y++;
         }
 
-        WorldMap.currentMap.setCellBackground(x, y, TileID.mountainSide);
+        if (WorldMap.currentMap.getCellBackgroundID(x, y) != TileID.persistantPath)
+            WorldMap.currentMap.setCellBackground(x, y, TileID.mountainSide);
 
     }
 }

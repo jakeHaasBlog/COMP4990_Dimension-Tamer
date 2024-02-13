@@ -10,12 +10,16 @@ public class BattleMenu : MonoBehaviour
     public Image playerCreatureImage;
     public TMPro.TextMeshProUGUI playerCreatureHPText;
     public GameObject playerHPBar;
+    private float playerHPBarMax;
 
     public Image enemyCreatureImage;
     public TMPro.TextMeshProUGUI enemyCreatureHPText;
     public TMPro.TextMeshProUGUI enemyCreatureTPText;
     public GameObject enemyHPBar;
+    private float enemyHPBarMax;
     public GameObject enemyTPBar;
+    private float enemyTPBarMax;
+    private int enemyCreatureTP = 0;
 
     public TMPro.TextMeshProUGUI battleAction1Text;
     public TMPro.TextMeshProUGUI battleAction2Text;
@@ -26,12 +30,19 @@ public class BattleMenu : MonoBehaviour
 
     public OverworldUI overworldUI;
 
+    public Animator playerAttackAnimator;
+    public Animator enemyAttackAnimator;
+
 
     private Creature enemyCreature;
+    private BattleAction queuedPlayerBattleAction;
+    BattleAction queuedEnemyBattleAction;
+    bool waitingForInvokedAction = false; // prevents the usage of buttons while an animation is queued
 
     void Start()
     {
-        
+        enemyTPBarMax = enemyTPBar.transform.localScale.x;
+        enemyHPBarMax = enemyHPBar.transform.localScale.x;
     }
 
     void Update()
@@ -41,7 +52,7 @@ public class BattleMenu : MonoBehaviour
         CreatureData playerCreatureData = CreatureManager.instance.biomeCreatures[playerCreature.getBiome()][(playerCreature.getCreatureDataIndex())];
 
         playerCreatureImage.sprite = playerCreatureData.image;
-        playerCreatureHPText.text = "HP: " + playerCreature.currentHP + "/" + playerCreatureData.maxHP;
+        playerCreatureHPText.text = "HP: " + playerCreature.currentHP + "/" + playerCreature.getMaxHP();
 
         String elementString = playerCreature.action1.element.ToString() + " : ";
         String dmgStr = "DMG " + (playerCreature.getAttackDamage(playerCreature.action1) * 0.9f) + " - " + (playerCreature.getAttackDamage(playerCreature.action1) * 1.1f);
@@ -65,21 +76,37 @@ public class BattleMenu : MonoBehaviour
         else battleAction3Text.text = elementString + playerCreature.action3.name + " - " + dmgStr + " - " + healStr;
         
         enemyCreatureImage.sprite = enemyCreatureData.image;
-        enemyCreatureHPText.text = "HP: " + enemyCreature.currentHP + "/" + enemyCreatureData.maxHP;
+        enemyCreatureHPText.text = "HP: " + enemyCreature.currentHP + "/" + enemyCreature.getMaxHP();
 
         playerElementText.text = "Element - " + playerCreatureData.type.ToString();
         enemyElementText.text = "Element - " + enemyCreatureData.type.ToString();
+
+        // hp and tranq bars
+        Vector3 playerHealthBarScale = playerHPBar.transform.localScale;
+        playerHealthBarScale.x = playerHPBarMax * ((float)playerCreature.currentHP / playerCreature.getMaxHP());
+        playerHPBar.transform.localScale = playerHealthBarScale;
+
+        Vector3 enemyHealthBarScale = enemyHPBar.transform.localScale;
+        enemyHealthBarScale.x = enemyHPBarMax * ((float)enemyCreature.currentHP / enemyCreature.getMaxHP());
+        enemyTPBar.transform.localScale = enemyHealthBarScale;
+
+        Vector3 enemyTranqBarScale = enemyTPBar.transform.localScale;
+        enemyTranqBarScale.x = enemyTPBarMax * ((float)enemyCreatureTP / 100.0f);
+        enemyTPBar.transform.localScale = enemyTranqBarScale;
     }
 
     public void beginEncounter(int encounterZoneID) {
+        waitingForInvokedAction = false;
+
         overworldUI.switchToBattleScene();
+        enemyCreatureTP = 0;
         Tuple<BiomeID, int> enemyCreatureDataIndex = CreatureManager.instance.encounterZones[encounterZoneID][UnityEngine.Random.Range(0, CreatureManager.instance.encounterZones[encounterZoneID].Count)];
         List<BattleAction> possibleActions = new List<BattleAction>();
         foreach (BattleAction action in CreatureManager.instance.allActions) {
             if (CreatureManager.instance.encounterZoneElements[encounterZoneID].Contains(action.element)) {
                 possibleActions.Add(action);
             }
-        } 
+        }
         
         int r = UnityEngine.Random.Range(0, possibleActions.Count);
         BattleAction ba1 = possibleActions[r];
@@ -94,14 +121,15 @@ public class BattleMenu : MonoBehaviour
         possibleActions.RemoveAt(r);
 
 
-        enemyCreature = new Creature(enemyCreatureDataIndex.Item1, enemyCreatureDataIndex.Item2, ba1, ba2, ba3);
-        enemyCreature.level = CreatureManager.instance.encounterZoneLevel[encounterZoneID];
-        enemyCreature.level += UnityEngine.Random.Range(-5, 5);
-        if (enemyCreature.level < 1) enemyCreature.level = 1;
-        if (enemyCreature.level > 100) enemyCreature.level = 100;
+        int level = CreatureManager.instance.encounterZoneLevel[encounterZoneID];
+        level += UnityEngine.Random.Range(-5, 5);
+        if (level < 1) level = 1;
+        if (level > 100) level = 100;
+        enemyCreature = new Creature(enemyCreatureDataIndex.Item1, enemyCreatureDataIndex.Item2, ba1, ba2, ba3, level);
     }
 
-    void usePlayerBattleAction(BattleAction action) {
+    void usePlayerBattleAction() {
+        BattleAction action = queuedPlayerBattleAction;
 
         if (CreatureManager.instance.playerCreatures[0] == null) return;
         if (CreatureManager.instance.playerCreatures[0].currentHP <= 0) return;
@@ -113,8 +141,8 @@ public class BattleMenu : MonoBehaviour
 
         if (heal > 0) {
             CreatureManager.instance.playerCreatures[0].currentHP += heal;
-            if (CreatureManager.instance.playerCreatures[0].currentHP > playerCreatureData.maxHP)
-                CreatureManager.instance.playerCreatures[0].currentHP = playerCreatureData.maxHP;
+            if (CreatureManager.instance.playerCreatures[0].currentHP > CreatureManager.instance.playerCreatures[0].getMaxHP())
+                CreatureManager.instance.playerCreatures[0].currentHP = CreatureManager.instance.playerCreatures[0].getMaxHP();
         }
 
         if (dmg > 0) {
@@ -126,23 +154,38 @@ public class BattleMenu : MonoBehaviour
 
             }
         }
+
+        if (dmg > 0) {
+            playerAttackAnimator.Play("CreatureAttack");
+        } else {
+            playerAttackAnimator.Play("CreatureHeal");
+        }
+
+        waitingForInvokedAction = false;
+        CancelInvoke("usePlayerBattleAction");
     }
 
     void enemyCreatureTurn() {
+
         if (enemyCreature.currentHP <= 0) return;
 
         int n = UnityEngine.Random.Range(0, 3);
         if (n == 0) {
-            useEnemyBattleAction(enemyCreature.action1);
+            queuedEnemyBattleAction = enemyCreature.action1;
         } else if (n == 1) {
-            useEnemyBattleAction(enemyCreature.action2);
+            queuedEnemyBattleAction = enemyCreature.action2;
         } else if (n == 2) {
-            useEnemyBattleAction(enemyCreature.action3);
+            queuedEnemyBattleAction = enemyCreature.action3;
         }
+
+        useEnemyBattleAction();
+        waitingForInvokedAction = false;
+        CancelInvoke("enemyCreatureTurn");
     }
 
-    void useEnemyBattleAction(BattleAction action) {
+    void useEnemyBattleAction() {
         if (enemyCreature == null) return;
+        BattleAction action = queuedEnemyBattleAction;
 
         int dmg = enemyCreature.getAttackDamage(action);
         int heal = enemyCreature.getHealAmount(action);
@@ -157,8 +200,14 @@ public class BattleMenu : MonoBehaviour
 
         if (heal > 0) {
             enemyCreature.currentHP += heal;
-            if (enemyCreature.currentHP > enemyCreatureData.maxHP)
-                enemyCreature.currentHP = enemyCreatureData.maxHP;
+            if (enemyCreature.currentHP > enemyCreature.getMaxHP())
+                enemyCreature.currentHP = enemyCreature.getMaxHP();
+        }
+
+        if (dmg > 0) {
+            enemyAttackAnimator.Play("CreatureAttack");
+        } else {
+            enemyAttackAnimator.Play("CreatureHeal");
         }
 
     }
@@ -187,45 +236,79 @@ public class BattleMenu : MonoBehaviour
     }
 
     public void battleAction1Clicked() {
+        if (waitingForInvokedAction) return;
+
+        float startAfterSeconds = 2.0f;
+        queuedPlayerBattleAction = CreatureManager.instance.playerCreatures[0].action1;
+
         if (CreatureManager.instance.playerCreatures[0].getSpeed() >= enemyCreature.getSpeed()) {
-            usePlayerBattleAction(CreatureManager.instance.playerCreatures[0].action1);
-            enemyCreatureTurn();
+            usePlayerBattleAction();
+            InvokeRepeating("enemyCreatureTurn", startAfterSeconds, 100000);
+            waitingForInvokedAction = true;
         } else {
             enemyCreatureTurn();
-            usePlayerBattleAction(CreatureManager.instance.playerCreatures[0].action1);
+            queuedPlayerBattleAction = CreatureManager.instance.playerCreatures[0].action1;
+            InvokeRepeating("usePlayerBattleAction", startAfterSeconds, 100000);
+            waitingForInvokedAction = true;
         }
     }
 
     public void battleAction2Clicked() {
+        if (waitingForInvokedAction) return;
+
+        float startAfterSeconds = 2.0f;
+        queuedPlayerBattleAction = CreatureManager.instance.playerCreatures[0].action2;
         if (CreatureManager.instance.playerCreatures[0].getSpeed() >= enemyCreature.getSpeed()) {
-            usePlayerBattleAction(CreatureManager.instance.playerCreatures[0].action2);
-            enemyCreatureTurn();
+            usePlayerBattleAction();
+            InvokeRepeating("enemyCreatureTurn", startAfterSeconds, 100000);
+            waitingForInvokedAction = true;
         } else {
             enemyCreatureTurn();
-            usePlayerBattleAction(CreatureManager.instance.playerCreatures[0].action2);
+            InvokeRepeating("usePlayerBattleAction", startAfterSeconds, 100000);
+            waitingForInvokedAction = true;
         }
     }
 
     public void battleAction3Clicked() {
+        if (waitingForInvokedAction) return;
+
+        float startAfterSeconds = 2.0f;
+        queuedPlayerBattleAction = CreatureManager.instance.playerCreatures[0].action3;
         if (CreatureManager.instance.playerCreatures[0].getSpeed() >= enemyCreature.getSpeed()) {
-            usePlayerBattleAction(CreatureManager.instance.playerCreatures[0].action3);
-            enemyCreatureTurn();
+            usePlayerBattleAction();
+            InvokeRepeating("enemyCreatureTurn", startAfterSeconds, 100000);
+            waitingForInvokedAction = true;
         } else {
             enemyCreatureTurn();
-            usePlayerBattleAction(CreatureManager.instance.playerCreatures[0].action3);
+            InvokeRepeating("usePlayerBattleAction", startAfterSeconds, 100000);
+            waitingForInvokedAction = true;
         }
     }
 
-    public void tranquilizerUsed() {
+    public void tranqClicked() {
+        if (waitingForInvokedAction) return;
 
-        // TODO: Make tranquilization bar increase based on the enemy's (health / maxHealth)
+        useTranquilizer();
+        float startAfterSeconds = 2.0f;
+        waitingForInvokedAction = true;
+        InvokeRepeating("enemyCreatureTurn", startAfterSeconds, 100000);
+    }
+
+    public void useTranquilizer() {
+
+        float tranqEffectiveness = 70.0f; // must be a positive number, 100 would fill bar if enemy had 1% hp
+        int tranqMin = 10;
+        enemyCreatureTP += (int)((1.0f - ((float)enemyCreature.currentHP / enemyCreature.getMaxHP())) * tranqEffectiveness) + tranqMin;
+        Debug.Log("current hp: " + enemyCreature.currentHP + "  max hp: " + enemyCreature.getMaxHP());
+
+        if (enemyCreatureTP < 100) return;
 
         int i = 0;
         for (i = 0; i < 6; i++) {
             if (CreatureManager.instance.playerCreatures[i] == null) {
                 CreatureManager.instance.playerCreatures[i] = enemyCreature;
                 CreatureData newCreatureData = CreatureManager.instance.biomeCreatures[CreatureManager.instance.playerCreatures[i].getBiome()][(CreatureManager.instance.playerCreatures[i].getCreatureDataIndex())];
-                CreatureManager.instance.playerCreatures[i].currentHP = newCreatureData.maxHP;
+                CreatureManager.instance.playerCreatures[i].currentHP = enemyCreature.getMaxHP();
 
                 break;
             }
@@ -238,6 +321,5 @@ public class BattleMenu : MonoBehaviour
         endEncounter();
 
     }
-
 
 }

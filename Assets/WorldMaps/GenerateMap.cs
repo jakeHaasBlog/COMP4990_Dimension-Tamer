@@ -14,23 +14,22 @@ public class GenerateMap : MonoBehaviour {
 
     public GameObject scientists;
 
+    public PlayerControls player;
+
+    public GameObject elementDecoration;
+
     void Start()
     {
         TilemapData.backgroundTilemap = backgroundTilemap;
         TilemapData.foregroundTilemap = foregroundTilemap;
-        TilemapData.foregroundTiles = new Dictionary<TileID, TileProperties>();
-        TilemapData.backgroundTiles = new Dictionary<TileID, TileProperties>();
-
-        TilemapData.loadTiles();
-
         generateWorld(WorldMap.currentMap.worldNumber);
-
     }
 
     public void generateWorld(int worldNumber) {
 
-        WorldMap.currentMap.clearAllCells();
+        player.setPosition(WorldMap.WIDTH / 2, WorldMap.HEIGHT / 2);
         PortalManager.instance.removePortals();
+        WorldMap.currentMap.clearAllCells();
 
         if (worldNumber < 0 || worldNumber > 6) {
             Debug.Log("Error: Trying to set invalid world number: " + worldNumber);
@@ -40,8 +39,10 @@ public class GenerateMap : MonoBehaviour {
         WorldMap.currentMap.worldNumber = worldNumber;
 
         if (WorldMap.currentMap.worldNumber == 0) {
+            player.setPosition(50, 50);
             startingWorldGenerator.generate();
         } else if (WorldMap.currentMap.worldNumber == 6) {
+            player.GetComponent<PlayerControls>().setPosition(32, 50);
             endingWorldGenerator.generate();
         } else {
             generate(); // procedurally generate map
@@ -51,6 +52,7 @@ public class GenerateMap : MonoBehaviour {
             scientists.SetActive(true);
         } else {
             scientists.SetActive(false);
+            elementDecoration.SetActive(false);
         }
     }
 

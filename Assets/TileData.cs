@@ -144,19 +144,34 @@ public static class TilemapData {
     public static Tilemap foregroundTilemap;
     public static IDictionary<TileID, TileProperties> foregroundTiles;
     public static IDictionary<TileID, TileProperties> backgroundTiles;
+    public static bool loadFromServer;
+
 
     public static Tile loadTileFromPath(String path) {
 
-        Texture2D tileTexture = Resources.Load<Texture2D>(path);
-        if (tileTexture == null) Debug.Log("Could not find texture at: " + path);
-        int pixelsPerUnit = tileTexture.width;
-        Sprite tileSprite = Sprite.Create(tileTexture, new Rect(0, 0, tileTexture.width, tileTexture.height), new Vector2(0, 0), pixelsPerUnit, 0, SpriteMeshType.Tight);
+        //if (!loadFromServer) {
+            Texture2D tileTexture = Resources.Load<Texture2D>(path);
+            if (tileTexture == null) Debug.Log("Could not find texture at: " + path);
+            int pixelsPerUnit = tileTexture.width;
+            Sprite tileSprite = Sprite.Create(tileTexture, new Rect(0, 0, tileTexture.width, tileTexture.height), new Vector2(0, 0), pixelsPerUnit, 0, SpriteMeshType.Tight);
 
-        Tile tile = ScriptableObject.CreateInstance(typeof(Tile)) as Tile;
-        tile.sprite = tileSprite;
+            Tile tile = ScriptableObject.CreateInstance(typeof(Tile)) as Tile;
+            tile.sprite = tileSprite;
 
-        return tile;
+            return tile;
+        //} else {
+
+            // request image: "server/c:/images/" + path
+
+            // Create sprite from loaded image
+
+            // create Tile from new Sprite
+
+            // return new Tile
+
+        //}
     }
+
 
     public static void loadTiles() {
         TilemapData.foregroundTiles.Clear();
@@ -210,7 +225,7 @@ public static class TilemapData {
 
         // SnowyForest
         TilemapData.backgroundTiles.Add(TileID.snowyForestGround, new TileProperties(loadTileFromPath("BiomeTiles/SnowyForest/snowyForestGround"), true, false ));
-        TilemapData.backgroundTiles.Add(TileID.snowyForestDeepSnowEZ, new TileProperties(loadTileFromPath("BiomeTiles/SnowyForest/deepSnow-ez"), true, false ));
+        TilemapData.backgroundTiles.Add(TileID.snowyForestDeepSnowEZ, new TileProperties(loadTileFromPath("BiomeTiles/SnowyForest/deepSnow-ez"), true, true ));
         TilemapData.foregroundTiles.Add(TileID.snowTree, new TileProperties(loadTileFromPath("BiomeTiles/SnowyForest/snowTree"), false, false ));
         
         // Ice Pond

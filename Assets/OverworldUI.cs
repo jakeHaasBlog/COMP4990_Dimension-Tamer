@@ -15,11 +15,14 @@ public class OverworldUI : MonoBehaviour
         pauseMenu.SetActive(false);
         playerInventory.SetActive(false);
         battleScene.SetActive(false);
+
+        Timer.instance.setPaused(false);
     }
     
     public void overworld_pauseClicked() {
         disableAll();
         pauseMenu.SetActive(true);
+        Timer.instance.setPaused(true);
     }
 
     public void overworld_inventoryClicked() {
